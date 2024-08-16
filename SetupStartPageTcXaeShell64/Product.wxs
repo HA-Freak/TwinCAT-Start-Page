@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+When we release a new version we must
+1) Update assemlby version number
+2) Update product version number here
+3) Create a new Product Id
+-->
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*"
+           Version="1.0.0.8"
+           Name="TwinCATStartPagex64"
+           Language="1033"
+           Manufacturer="HA-Freak"
+           UpgradeCode="0bad7df4-e46c-45ce-bf19-449671f6a77d">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\licence.rtf" />
+    <UI Id="UserInterface">
+    </UI>
+    <UIRef Id="WixUI_Minimal" />
+
+    <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes"/>
+
+    <Property Id="TCXAESHELL64INSTALLATIONFOLDER" Secure="yes">
+      <RegistrySearch Id="TCXAESHELL64InstallationFolderRegistryx64SearchId" Type="raw"
+                      Root="HKLM" Key="SOFTWARE\Beckhoff\TcXaeShell\17.0" Name="InstallDir" Win64="yes"></RegistrySearch>
+    </Property>
+
+    <!-- Throw a message if TcXaeShell is not installed-->
+    <Condition Message="This extention requires TcXaeShell to be already installed">
+      TCXAESHELL64INSTALLATIONFOLDER
+    </Condition>
+
+    <!-- Create the event log source -->
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Component Id="TwinCATStartPagex64_ExtentionEventLog" Guid="0147ec98-643d-4f32-074c-5ea4315aa39b">
+        <Util:EventSource xmlns:Util="http://schemas.microsoft.com/wix/UtilExtension"
+              Log="Application" Name="TwinCATStartPagex64_Extention" EventMessageFile="[NETFRAMEWORK20INSTALLROOTDIR]EventLogMessages.dll"/>
+      </Component>
+
+      <Directory Id="ProgramFiles64Folder">
+        <!-- TcXaeShell files -->
+        <Directory Id="BeckhoffDirId" Name="Beckhoff">
+          <Directory Id="TcXaeShell64DirId" Name="TcXaeShell">
+            <Directory Id="Common7DirId" Name="Common7">
+              <Directory Id="IDEDirId" Name="IDE">
+                <Directory Id="ExtensionsDirId" Name="Extensions">
+                  <Directory Id="TwinCATStartPagex64DirId" Name="TwinCATStartPagex64">
+                    <Component Id="TwinCATStartPagex64TcXaeShell64Resources" Guid="a2dd8ac2-b951-0933-30c3-912a7e478e6e">
+
+                      <File Id="MicrosoftXamlBehaviorsDllId" Name="Microsoft.Xaml.Behaviors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.dll"/>
+                      <File Id="MicrosoftXamlBehaviorsPdbId" Name="Microsoft.Xaml.Behaviors.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.pdb"/>
+                      <File Id="StartPageTcXaeShell6464bitdllId" Name="start-page-plus-64-bit.dll" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-plus-64-bit.dll"/>
+                      <File Id="StartPageTcXaeShell6464bitpdbId" Name="start-page-plus-64-bit.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-plus-64-bit.pdb"/>
+                      <File Id="StartPageTcXaeShell6464bitpkgdefId" Name="start-page-plus-64-bit.pkgdef" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-plus-64-bit.pkgdef"/>
+                      <File Id="SystemComponentModelAnnotationsDllId" Name="System.ComponentModel.Annotations.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.ComponentModel.Annotations.dll"/>
+                      <File Id="SystemNumericsVectorsDllId" Name="System.Numerics.Vectors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.Numerics.Vectors.dll"/>
+                      <File Id="CommunityVisualStudioToolkitDllId" Name="Community.VisualStudio.Toolkit.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Community.VisualStudio.Toolkit.dll"/>
+                      <File Id="CommunityToolkitMvvmDllId" Name="CommunityToolkit.Mvvm.dll" Vital="yes" Source="..\src\vsix\bin\Debug\CommunityToolkit.Mvvm.dll"/>
+                      <File Id="CommunityToolkitMvvmPdbId" Name="CommunityToolkit.Mvvm.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\CommunityToolkit.Mvvm.pdb"/>
+                      <File Id="ExtensionVsixmanifestId" Name="extension.vsixmanifest" Vital="yes" Source="..\src\vsix\bin\Debug\extension.vsixmanifest"/>
+                      <File Id="MicrosoftExtensionsDependencyInjectionAbstractionsDllId" Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
+                      <File Id="MicrosoftExtensionsDependencyInjectionDllId" Name="Microsoft.Extensions.DependencyInjection.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Extensions.DependencyInjection.dll"/>
+
+
+
+
+
+                      <!--Disable auto updates (ShowOnStartup=0)-->
+
+                      <!-- Update the .addin file to specify version 12.0 of Visual Studio 
+                  <Util:XmlFile xmlns:Util="http://schemas.microsoft.com/wix/UtilExtension" Id="VS2013SetVersion" Action="setValue"
+                            File="[#ExpFileImporterAddIn2013]" ElementPath="/Extensibility/HostApplication/Version" Value="12.0" Sequence="1" />-->
+                    </Component>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+
+    <Feature Id="ProductFeature" Title="TwinCATStartPagex64" Level="1" >
+      <ComponentRef Id="TwinCATStartPagex64_ExtentionEventLog"/>
+
+      <!-- If TcXaeShell present then install add in to TcXaeShell64-->
+      <Feature Id="TcXaeShell64" Title="TcXaeShell64"
+         Description="Installs the Extention for TcXaeShell64" Level="1" AllowAdvertise="no">
+        <Condition Level="0">NOT TCXAESHELL64INSTALLATIONFOLDER</Condition>
+        <ComponentRef Id="TwinCATStartPagex64TcXaeShell64Resources"/>
+      </Feature>
+
+    </Feature>
+  </Product>
+</Wix>
+
+

@@ -1,0 +1,11 @@
+﻿namespace StartPageTcXaeShell64.UI.ViewModels
+{
+    public class TabViewModel : ViewModelBase
+    {
+        public string Name { get; set; }
+
+        public string Title { get; set; }
+
+        public bool TabVisible { get; set; }
+    }
+}
