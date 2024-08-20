@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>e4335979-0285-41ec-9950-c6732a222d21</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>SetupStartPagePlus</OutputName>
+    <OutputName>SetupStartPageTcXaeShell64</OutputName>
     <OutputType>Package</OutputType>
     <Name>SetupStartPageTcXaeShell64</Name>
   </PropertyGroup>
