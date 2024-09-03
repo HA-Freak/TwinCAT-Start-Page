@@ -30,8 +30,14 @@ When we release a new version we must
     </Property>
 
     <!-- Throw a message if TcXaeShell is not installed-->
-    <Condition Message="This extention requires TcXaeShell to be already installed">
+    <Condition Message="This extention requires TcXaeShell64 to be already installed">
       TCXAESHELL64INSTALLATIONFOLDER
+    </Condition>
+
+    <Property Id="RUNFROMTCPKG"/>
+
+    <Condition Message="You need to install this package with TcPkg">
+      RUNFROMTCPKG
     </Condition>
 
     <!-- Create the event log source -->
