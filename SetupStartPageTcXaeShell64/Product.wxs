@@ -36,7 +36,7 @@ When we release a new version we must
 
     <Property Id="RUNFROMTCPKG"/>
 
-    <Condition Message="You need to install this package with TcPkg">
+    <Condition Message="Please use the TwinCAT Package Manager to install this Software">
       RUNFROMTCPKG
     </Condition>
 
