@@ -8,18 +8,16 @@ When we release a new version we must
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*"
-           Version="1.0.0.8"
+           Version="1.0.1.0"
            Name="TwinCATStartPagex64"
            Language="1033"
            Manufacturer="HA-Freak"
            UpgradeCode="0bad7df4-e46c-45ce-bf19-449671f6a77d">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-
+    <!-- Check -->
     <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
-
     <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\licence.rtf" />
-    <UI Id="UserInterface">
-    </UI>
+    <UI Id="UserInterface"></UI>
     <UIRef Id="WixUI_Minimal" />
 
     <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes"/>
@@ -36,9 +34,9 @@ When we release a new version we must
 
     <Property Id="RUNFROMTCPKG"/>
 
-    <Condition Message="Please use the TwinCAT Package Manager to install this Software">
+    <!--Condition Message="Please use the TwinCAT Package Manager to install this Software">
       RUNFROMTCPKG
-    </Condition>
+    </Condition-->
 
     <!-- Create the event log source -->
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -59,9 +57,9 @@ When we release a new version we must
 
                       <File Id="MicrosoftXamlBehaviorsDllId" Name="Microsoft.Xaml.Behaviors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.dll"/>
                       <File Id="MicrosoftXamlBehaviorsPdbId" Name="Microsoft.Xaml.Behaviors.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.pdb"/>
-                      <File Id="StartPageTcXaeShell6464bitdllId" Name="start-page-plus-64-bit.dll" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-plus-64-bit.dll"/>
-                      <File Id="StartPageTcXaeShell6464bitpdbId" Name="start-page-plus-64-bit.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-plus-64-bit.pdb"/>
-                      <File Id="StartPageTcXaeShell6464bitpkgdefId" Name="start-page-plus-64-bit.pkgdef" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-plus-64-bit.pkgdef"/>
+                      <File Id="StartPageTcXaeShell6464bitdllId" Name="start-page-tcxaeshell64.dll" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-tcxaeshell64.dll"/>
+                      <File Id="StartPageTcXaeShell6464bitpdbId" Name="start-page-tcxaeshell64.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-tcxaeshell64.pdb"/>
+                      <File Id="StartPageTcXaeShell6464bitpkgdefId" Name="start-page-tcxaeshell64.pkgdef" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-tcxaeshell64.pkgdef"/>
                       <File Id="SystemComponentModelAnnotationsDllId" Name="System.ComponentModel.Annotations.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.ComponentModel.Annotations.dll"/>
                       <File Id="SystemNumericsVectorsDllId" Name="System.Numerics.Vectors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.Numerics.Vectors.dll"/>
                       <File Id="CommunityVisualStudioToolkitDllId" Name="Community.VisualStudio.Toolkit.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Community.VisualStudio.Toolkit.dll"/>

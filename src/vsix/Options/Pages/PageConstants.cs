@@ -25,7 +25,7 @@
         public const string PackageName = Vsix.Name;
         public const string PackageFeatureSet = PackageName + Space + FeatureSet;
 
-        // Start Page+
+        // StartPageTcXaeShell64
 
         public const string EnableStartPageTcXaeShell64DispayName = "Enable '" + PackageName + "'";
         public const string EnableStartPageTcXaeShell64Description = "Allows the whole set of '" + PackageName + "' features to be turned off together";
@@ -38,7 +38,7 @@
         public const string PackageVersion = "Version Number";
 
         public const string MaxWidthDisplayName = "Max Width";
-        public const string MaxWidthDescription = "Sets the max width of contents of the Start Page+ window";
+        public const string MaxWidthDescription = "Sets the max width of contents of the StartPageTcXaeShell64 window";
         internal const int MaxWidthDefault = 1280;
 
         // General
@@ -52,11 +52,11 @@
         internal const string StartTabTitleDefault = "TwinCAT 3";
 
         public const string HideOnSolutionOpenDisplayName = "Hide Window on Solution Load";
-        public const string HideOnSolutionOpenDescription = "Hides the 'Start Page+' window when a solution is loaded";
+        public const string HideOnSolutionOpenDescription = "Hides the 'StartPageTcXaeShell64' window when a solution is loaded";
         internal const bool HideOnSolutionOpenDefault = false;
 
         public const string RestoreOnSolutionCloseDisplayName = "Show Window on Solution Close";
-        public const string RestoreOnSolutionCloseDescription = "Shows the 'Start Page+' window when a solution is closed";
+        public const string RestoreOnSolutionCloseDescription = "Shows the 'StartPageTcXaeShell64' window when a solution is closed";
         internal const bool RestoreOnSolutionCloseDefault = false;
 
         // Recent Items

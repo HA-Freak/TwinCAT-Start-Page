@@ -13,7 +13,7 @@
 
     using Task = System.Threading.Tasks.Task;
 
-    [Command(PackageIds.ViewWindow)]
+    [Command(PackageIds.FileWindow)]
     internal sealed class ViewWindow : BaseCommand<ViewWindow>
     {
         //protected override void BeforeQueryStatus(EventArgs e)

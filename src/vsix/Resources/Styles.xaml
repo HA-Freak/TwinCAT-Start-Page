@@ -5,7 +5,7 @@
     xmlns:pui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     >
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/start-page-plus-64-bit;component/Resources/Brushes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Brushes.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <FontFamily x:Key="DefaultFont">Segoe UI</FontFamily>

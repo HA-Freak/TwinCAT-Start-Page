@@ -2,6 +2,6 @@
 {
     internal sealed partial class Vsix
     {
-        public const string InternalName = "Start Page+";
+        public const string InternalName = "StartPageTcXaeShell64";
     }
 }

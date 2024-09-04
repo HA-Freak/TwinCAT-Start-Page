@@ -23,6 +23,6 @@ namespace StartPageTcXaeShell64
     /// </summary>
     internal sealed partial class PackageIds
     {
-        public const int ViewWindow = 0x0210;
+        public const int FileWindow = 0x0210;
     }
 }
