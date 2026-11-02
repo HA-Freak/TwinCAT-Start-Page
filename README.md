@@ -3,7 +3,7 @@
 # TwinCAT Start Page
 
 A start page extension for the **TwinCAT XAE Shell (64-bit)** and **Visual Studio 2022 / 2026**.
-It brings back the classic start page as a document tab, the way TwinCAT 3 used to have it.
+It brings back the classic start page as a document tab, the way TwinCAT 3 TcXaeShell used to have it.
 The tab shows recent projects, open and create actions, and the Beckhoff TwinCAT news.
 
 **Repository:** https://github.com/HA-Freak/TwinCAT-Start-Page · [Releases](https://github.com/HA-Freak/TwinCAT-Start-Page/releases) · [Issues](https://github.com/HA-Freak/TwinCAT-Start-Page/issues)
