@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.NewsItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.NewsItems
 {
     using Messages;
 

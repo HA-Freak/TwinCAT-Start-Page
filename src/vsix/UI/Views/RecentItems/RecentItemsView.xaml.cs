@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,7 +7,7 @@ using System.Windows.Data;
 using Luminous.Code.Extensions.Exceptions;
 using Luminous.Code.Extensions.Strings;
 
-namespace StartPageTcXaeShell64.UI.Views.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Views.RecentItems
 {
     using ViewModels;
     using ViewModels.RecentItems;

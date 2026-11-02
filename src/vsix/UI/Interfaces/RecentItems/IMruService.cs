@@ -1,10 +1,10 @@
-﻿namespace StartPageTcXaeShell64.UI.Interfaces.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Interfaces.RecentItems
 {
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using StartPageTcXaeShell64.UI.Models;
+    using TwinCAT.XAE.StartPage.UI.Models;
 
     internal interface IMruService
     {

@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Windows.Controls;
 
 using Community.VisualStudio.Toolkit;
 
-namespace StartPageTcXaeShell64.UI.Views
+namespace TwinCAT.XAE.StartPage.UI.Views
 {
-    using StartPageTcXaeShell64.UI.ViewModels;
+    using TwinCAT.XAE.StartPage.UI.ViewModels;
 
     public partial class MainView : UserControl
     {

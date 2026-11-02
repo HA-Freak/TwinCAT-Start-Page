@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -6,7 +6,7 @@ using System.Windows.Data;
 using Luminous.Code.Extensions.Exceptions;
 using Luminous.Code.Extensions.Strings;
 
-namespace StartPageTcXaeShell64.UI.Views.NewsItems
+namespace TwinCAT.XAE.StartPage.UI.Views.NewsItems
 {
     using UI.ViewModels;
 

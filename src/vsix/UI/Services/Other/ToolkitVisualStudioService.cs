@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -13,13 +13,14 @@ using EnvDTE80;
 
 using Luminous.Code.Extensions.Strings;
 
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 using Process = System.Diagnostics.Process;
 using Task = System.Threading.Tasks.Task;
 
-namespace StartPageTcXaeShell64.UI.Services.Other
+namespace TwinCAT.XAE.StartPage.UI.Services.Other
 {
     using Core;
     using Core.Interfaces;
@@ -84,27 +85,20 @@ namespace StartPageTcXaeShell64.UI.Services.Other
             return result;
         }
 
-        public bool OpenWebPage(string url, bool openInVS) //YD: OpenWebpage uses BrowsingService & Process
+        public bool OpenWebPage(string url, bool openInVS, string title = null) //YD: OpenWebpage uses BrowsingService & Process
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
             try
             {
-                var browsingService = VS.GetRequiredService<SVsWebBrowsingService, IVsWebBrowsingService>();
+                if (openInVS && TryOpenInVsBrowser(url, title))
+                {
+                    return true;
+                }
 
-                if (openInVS == true)
-                {
-                    browsingService.Navigate(url, FORCE_NEW_WINDOW, out var ppFrame);
-                }
-                else
-                {
-                    using (var proc = new Process())
-                    {
-                        proc.StartInfo.FileName = url;
-                        proc.StartInfo.Verb = VERB_OPEN;
-                        proc.Start();
-                    }
-                }
+                // default external browser; also the fallback when the WebView2
+                // runtime is not available on this machine
+                OpenExternalBrowser(url);
                 return true;
             }
             catch (FileNotFoundException)
@@ -116,6 +110,48 @@ namespace StartPageTcXaeShell64.UI.Services.Other
             {
                 _dialogService.ShowException(ex);
                 return false;
+            }
+        }
+
+        private static bool TryOpenInVsBrowser(string url, string title)
+        {
+            try
+            {
+                Views.BrowserView.UseBundledLoader();
+
+                // throws when the WebView2 runtime is not installed on this machine
+                Microsoft.Web.WebView2.Core.CoreWebView2Environment.GetAvailableBrowserVersionString();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            // WebView2 initialization completes via window messages, so it must never
+            // be waited on synchronously from the UI thread (it deadlocks) - open the
+            // window fire-and-forget and fall back to the external browser on failure
+            ThreadHelper.JoinableTaskFactory.RunAsync(async () =>
+            {
+                try
+                {
+                    await ToolWindows.BrowserWindow.OpenAsync(url, title);
+                }
+                catch (Exception)
+                {
+                    OpenExternalBrowser(url);
+                }
+            }).FireAndForget();
+
+            return true;
+        }
+
+        private static void OpenExternalBrowser(string url)
+        {
+            using (var proc = new Process())
+            {
+                proc.StartInfo.FileName = url;
+                proc.StartInfo.Verb = VERB_OPEN;
+                proc.Start();
             }
         }
 
@@ -193,6 +229,25 @@ namespace StartPageTcXaeShell64.UI.Services.Other
                 return ExecuteCommand(FILE_NEW_PROJECT);
             }
             catch (ArgumentException ex)
+            {
+                _dialogService.ShowException(ex);
+                return false;
+            }
+        }
+
+        public bool CreateTwinCatProject(int delay, string category = null)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            try
+            {
+                if (!TwinCatProject.CreateInteractively(Dte, category))
+                    return false;
+
+                Send<RefreshRecentItems>(new RefreshRecentItems(delay));
+                return true;
+            }
+            catch (Exception ex)
             {
                 _dialogService.ShowException(ex);
                 return false;

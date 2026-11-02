@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
 using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft;
 using Microsoft.VisualStudio.Shell;
 
-namespace StartPageTcXaeShell64.UI.Services
+namespace TwinCAT.XAE.StartPage.UI.Services
 {
     using Core;
     using Core.Interfaces;
@@ -17,10 +17,6 @@ namespace StartPageTcXaeShell64.UI.Services
     using UI.Messages;
 
     using ViewModels.RecentItems;
-
-    using EnvDTE;
-    using EnvDTE80;
-    using Community.VisualStudio.Toolkit;
 
     internal class RecentItemActionService : ServiceBase, IRecentItemActionService
     {
@@ -50,8 +46,6 @@ namespace StartPageTcXaeShell64.UI.Services
         //private IDateTimeService DateTimeService { get; }
 
         //---
-        private static DTE2 Dte
-            => VS.GetRequiredService<_DTE, DTE2>(); //YD: investigate toolkit for DTE2 alternative, also a way to not call every service (some may never be used)
 
         public void ExecuteAction(RecentItemViewModel viewModel)
         {
@@ -89,9 +83,6 @@ namespace StartPageTcXaeShell64.UI.Services
                         DialogService.ShowWarning($"Unhandled item type:'{itemType}'");
                         break;
                 }
-                var StartPageId = Dte.ActiveWindow.ObjectKind;
-                Dte.Windows.Item(StartPageId).Close();//SRS
-
             }
             catch (Exception ex)
             {

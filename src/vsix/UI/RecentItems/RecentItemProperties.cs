@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Models
+namespace TwinCAT.XAE.StartPage.UI.Models
 {
     internal class RecentItemProperties
     {

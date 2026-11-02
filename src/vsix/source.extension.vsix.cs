@@ -1,7 +1,7 @@
-﻿namespace StartPageTcXaeShell64
+namespace TwinCAT.XAE.StartPage
 {
     internal sealed partial class Vsix
     {
-        public const string InternalName = "StartPageTcXaeShell64";
+        public const string InternalName = "TwinCAT.XAE.StartPage";
     }
 }

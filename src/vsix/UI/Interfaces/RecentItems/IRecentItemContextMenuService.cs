@@ -1,6 +1,6 @@
-﻿namespace StartPageTcXaeShell64.UI.Interfaces.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Interfaces.RecentItems
 {
-    using StartPageTcXaeShell64.UI.ViewModels.RecentItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems;
 
     internal interface IRecentItemContextMenuService
     {

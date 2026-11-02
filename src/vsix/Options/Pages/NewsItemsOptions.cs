@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 using Community.VisualStudio.Toolkit;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.Options.Pages
+namespace TwinCAT.XAE.StartPage.Options.Pages
 {
     using DI;
 
@@ -58,21 +58,36 @@ namespace StartPageTcXaeShell64.Options.Pages
         [Description(OpenLinksInVsDescription)]
         public bool OpenLinksInVS { get; set; } = OpenLinksInVsDefault;
 
-        [Category(H2 + PageConstants.Behavior)]
-        [DisplayName(ShowNewsItemTooltipDisplayName)]
-        [Description(ShowNewsItemTooltipDescription)]
-        public bool ShowNewsItemTooltip { get; set; } = ShowNewsItemTooltipDefault;
-
-        [Category(H2 + PageConstants.Behavior)]
-        [DisplayName(NewsItemTooltipDelayDisplayName)]
-        [Description(NewsItemTooltipDelayDescription)]
-        public int NewsItemTooltipDelay { get; set; } = NewsItemTooltipDelayDefault;
+        // toggled on the start page, so it isn't shown in the options dialog
+        [Browsable(false)]
+        public bool NewsItemsMinimized { get; set; } = false;
 
         //---
 
+        private bool _savingMinimized;
+
+        // remembers the state without reloading the news feed
+        public void SaveMinimized(bool minimized)
+        {
+            NewsItemsMinimized = minimized;
+            _savingMinimized = true;
+
+            try
+            {
+                Save();
+            }
+            finally
+            {
+                _savingMinimized = false;
+            }
+        }
+
         private void OnSaved(NewsItemsOptions options)
         {
-            var container = StartPageTcXaeShell64Container.Instance;
+            if (_savingMinimized)
+                return;
+
+            var container = StartPageContainer.Instance;
             var messenger = container.GetInstance<IMessenger>();
 
             messenger.Send<RefreshNewsItems>();

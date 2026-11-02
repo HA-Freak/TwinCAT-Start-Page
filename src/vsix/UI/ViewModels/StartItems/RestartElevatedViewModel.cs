@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.StartItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.StartItems
 {
     using Interfaces;
 
@@ -11,7 +11,7 @@ namespace StartPageTcXaeShell64.UI.ViewModels.StartItems
             Moniker = KnownMonikers.User;
             Name = "Restart Visual Studio (elevated)";
             Description = "Restart Visual Studio as administrator with one click";
-            ImageSize = 49; // 47; // 45; // 42;
+            ImageSize = 34; // 39; // 49; // 47; // 45; // 42;
             Margin = "9,-2,-3,0"; //"9,-2,-4,0"; //"9,-2,0,0"; //"9,0,0,0"; //"11,0,0,0"; //"9,0,0,0"; //"9,5,0,0";
         }
 

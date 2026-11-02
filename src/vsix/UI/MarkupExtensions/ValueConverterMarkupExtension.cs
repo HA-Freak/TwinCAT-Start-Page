@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.MarkupExtensions
+namespace TwinCAT.XAE.StartPage.UI.MarkupExtensions
 {
     using System;
     using System.Globalization;

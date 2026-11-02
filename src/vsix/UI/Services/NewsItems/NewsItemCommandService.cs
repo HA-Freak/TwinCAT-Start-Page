@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.Services
+namespace TwinCAT.XAE.StartPage.UI.Services
 {
     using Core;
 

@@ -1,9 +1,9 @@
-﻿// usage:
-// xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
+// usage:
+// xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
 
 //<Image Moniker="{Binding RecentItemType, Converter={c:RecentItemTypeToImageMonikerConverter}">
 
-namespace StartPageTcXaeShell64.UI.Converters
+namespace TwinCAT.XAE.StartPage.UI.Converters
 {
     using System;
     using System.Globalization;
@@ -11,8 +11,8 @@ namespace StartPageTcXaeShell64.UI.Converters
 
     using Microsoft.VisualStudio.Imaging.Interop;
 
-    using StartPageTcXaeShell64.UI.Enums;
-    using StartPageTcXaeShell64.UI.MarkupExtensions;
+    using TwinCAT.XAE.StartPage.UI.Enums;
+    using TwinCAT.XAE.StartPage.UI.MarkupExtensions;
 
     [ValueConversion(typeof(RecentItemType), typeof(ImageMoniker))]
     public class RecentItemTypeToImageMonikerConverter : ValueConverterMarkupExtension

@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.NewsItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.NewsItems
 {
     using Core.Interfaces;
 
@@ -19,13 +20,16 @@ namespace StartPageTcXaeShell64.UI.ViewModels.NewsItems
     //namespace System.ServiceModel.Syndication
     //public class SyndicationFeed
 
-    public class NewsItemsViewModel : ColumnViewModel
+    public partial class NewsItemsViewModel : ColumnViewModel
     {
         private const string HEADING = "News";
 
         private List<NewsItemViewModel> _items = new();
         private NewsItemViewModel _selectedItem;
         private bool _refreshed;
+        private bool _minimizedByUser;
+        private bool _tooNarrow;
+        private bool _expandedAnyway;
         private readonly IDialogService _dialogService;
         private readonly IVisualStudioService _visualStudioService;
 
@@ -47,6 +51,7 @@ namespace StartPageTcXaeShell64.UI.ViewModels.NewsItems
 
             Heading = HEADING;
             IsVisible = true;
+            _minimizedByUser = NewsItemsOptions.Instance.NewsItemsMinimized;
 
             GetCommands();
             Refresh();
@@ -89,7 +94,58 @@ namespace StartPageTcXaeShell64.UI.ViewModels.NewsItems
             }
         }
 
+        // only the vertical 'News' strip at the right edge is shown:
+        // minimized by the user (remembered), or automatically while the start page is too narrow
+        public bool IsMinimized
+            => _minimizedByUser || (_tooNarrow && !_expandedAnyway);
+
+        // set by the start view when its width changes
+        public bool IsTooNarrow
+        {
+            get => _tooNarrow;
+            set
+            {
+                if (_tooNarrow == value)
+                    return;
+
+                _tooNarrow = value;
+                _expandedAnyway = false;
+                OnPropertyChanged(nameof(IsMinimized));
+            }
+        }
+
         //---
+
+        // only the user's own choice is remembered, never the automatic minimizing
+        [RelayCommand]
+        private void ToggleMinimized()
+        {
+            if (IsMinimized)
+            {
+                if (_minimizedByUser)
+                    SetMinimizedByUser(false);
+
+                // opened although there isn't enough space: stays open until the width changes
+                if (_tooNarrow)
+                    _expandedAnyway = true;
+            }
+            else if (_tooNarrow)
+            {
+                _expandedAnyway = false;
+            }
+            else
+            {
+                SetMinimizedByUser(true);
+            }
+
+            OnPropertyChanged(nameof(IsMinimized));
+        }
+
+        private void SetMinimizedByUser(bool minimized)
+        {
+            _minimizedByUser = minimized;
+            NewsItemsOptions.Instance.SaveMinimized(minimized);
+        }
 
         public void Refresh()
         {

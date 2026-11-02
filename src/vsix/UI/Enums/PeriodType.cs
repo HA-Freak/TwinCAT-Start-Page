@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Enums
+namespace TwinCAT.XAE.StartPage.UI.Enums
 {
     using System.ComponentModel;
 
@@ -6,16 +6,17 @@
 
     public enum PeriodType
     {
-
         Pinned = 0,
         Today = 1,
         Yesterday = 2,
         [Description("This week")]
         ThisWeek = 3,
+        [Description("Last week")]
+        LastWeek = 4,
         [Description("This month")]
-        ThisMonth = 4,
+        ThisMonth = 5,
         [Description("Last month")]
-        LastMonth = 5,
-        Older = 5
+        LastMonth = 6,
+        Older = 7
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.ToolWindows
+namespace TwinCAT.XAE.StartPage.UI.ToolWindows
 {
     using System;
     using System.Runtime.InteropServices;
@@ -11,16 +11,18 @@
 
     using Microsoft.VisualStudio.Shell;
 
-    using StartPageTcXaeShell64.UI.Views;
+    using TwinCAT.XAE.StartPage.UI.Views;
 
     public class MainWindow : BaseToolWindow<MainWindow>
     {
+        public const string Title = "Start Page";
+
         //public static MainWindow Instance { get; private set; }
 
         public static MainView View { get; private set; }
 
         public override string GetTitle(int toolWindowId)
-            => Vsix.InternalName;
+            => Title;
 
         public override Type PaneType
             => typeof(Pane);
@@ -36,12 +38,12 @@
 
         //---
 
-        [Guid(PackageGuids.StartPageTcXaeShell64WindowString)]
+        [Guid(PackageGuids.StartPageWindowString)]
         public class Pane : ToolWindowPane
         {
             public Pane()
             {
-                Caption = Vsix.InternalName;
+                Caption = Title;
                 BitmapImageMoniker = KnownMonikers.Home;
             }
         }

@@ -1,10 +1,10 @@
-﻿namespace StartPageTcXaeShell64.UI.ViewModels
+namespace TwinCAT.XAE.StartPage.UI.ViewModels
 {
     using System.Collections.ObjectModel;
 
     using Community.VisualStudio.Toolkit;
 
-    using StartPageTcXaeShell64.Options.Pages;
+    using TwinCAT.XAE.StartPage.Options.Pages;
 
     public class MainViewModel : ViewModelBase
     {

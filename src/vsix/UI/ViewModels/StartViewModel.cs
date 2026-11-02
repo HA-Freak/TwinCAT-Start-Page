@@ -1,12 +1,10 @@
-﻿using System.Collections.ObjectModel;
-
-namespace StartPageTcXaeShell64.UI.ViewModels
+namespace TwinCAT.XAE.StartPage.UI.ViewModels
 {
     using Options.Pages;
 
-    using StartPageTcXaeShell64.UI.ViewModels.NewsItems;
-    using StartPageTcXaeShell64.UI.ViewModels.RecentItems;
-    using StartPageTcXaeShell64.UI.ViewModels.StartItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.NewsItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.StartItems;
 
     public class StartViewModel : TabViewModel
     {
@@ -17,27 +15,22 @@ namespace StartPageTcXaeShell64.UI.ViewModels
             Name = "Start";
             Title = options.StartTabTitleText;
 
+            RecentItems = recentItemsViewModel;
+            StartItems = startItemsViewModel;
+
             if (options.DisplayNewsItems)
             {
-                Columns = new ObservableCollection<ColumnViewModel>
-                {
-                    recentItemsViewModel,
-                    startItemsViewModel,
-                    newsItemsViewModel
-                };
-            }
-            else
-            {
-                Columns = new ObservableCollection<ColumnViewModel>
-                {
-                    recentItemsViewModel,
-                    startItemsViewModel
-                };
+                NewsItems = newsItemsViewModel;
             }
         }
 
         //---
 
-        public ObservableCollection<ColumnViewModel> Columns { get; set; }
+        public RecentItemsViewModel RecentItems { get; }
+
+        public StartItemsViewModel StartItems { get; }
+
+        // null when the news column is turned off in the options
+        public NewsItemsViewModel NewsItems { get; }
     }
 }

@@ -1,18 +1,18 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 using Community.VisualStudio.Toolkit;
 
-namespace StartPageTcXaeShell64.Options.Pages
+namespace TwinCAT.XAE.StartPage.Options.Pages
 {
     using Core.Interfaces;
 
-    using StartPageTcXaeShell64.UI.Services;
+    using TwinCAT.XAE.StartPage.UI.Services;
 
     using UI.ToolWindows;
 
-    using static StartPageTcXaeShell64.Options.Pages.PageConstants;
+    using static TwinCAT.XAE.StartPage.Options.Pages.PageConstants;
 
     internal partial class OptionsProvider
     {
@@ -37,14 +37,14 @@ namespace StartPageTcXaeShell64.Options.Pages
         //---
 
         [Category(H1 + PackageName)]
-        [DisplayName(EnableStartPageTcXaeShell64DispayName)]
-        [Description(EnableStartPageTcXaeShell64Description)]
-        public bool EnableStartPageTcXaeShell64 { get; set; } = EnableStartPageTcXaeShell64Default;
+        [DisplayName(EnableStartPageDispayName)]
+        [Description(EnableStartPageDescription)]
+        public bool EnableStartPage { get; set; } = EnableStartPageDefault;
 
         [Category(H1 + PackageName)]
         [DisplayName(EnableOptionsMenuItemDispayName)]
         [Description(EnableOptionsMenuItemDescription)]
-        public bool EnableStartPageTcXaeShell64Options { get; set; } = EnableStartPageTcXaeShell64OptionsDefault;
+        public bool EnableStartPageOptions { get; set; } = EnableStartPageOptionsDefault;
 
         [Category(H1 + PackageName)]
         [DisplayName(PageConstants.PackageVersion)]
@@ -76,6 +76,11 @@ namespace StartPageTcXaeShell64.Options.Pages
         //--- behavior
 
         [Category(H3 + PageConstants.Behavior)]
+        [DisplayName(ShowOnStartupDisplayName)]
+        [Description(ShowOnStartupDescription)]
+        public bool ShowOnStartup { get; set; } = ShowOnStartupDefault;
+
+        [Category(H3 + PageConstants.Behavior)]
         [DisplayName(HideOnSolutionOpenDisplayName)]
         [Description(HideOnSolutionOpenDescription)]
         public bool HideOnSolutionOpen { get; set; } = HideOnSolutionOpenDefault;
@@ -91,12 +96,12 @@ namespace StartPageTcXaeShell64.Options.Pages
         {
             try
             {
-                MainWindow.View.InvalidateVisual();
-
+                // View is only set once the tool window has been created
+                MainWindow.View?.InvalidateVisual();
             }
             catch (Exception ex)
             {
-                _dialogService.ShowException(ex);
+                _dialogService?.ShowException(ex);
             }
         }
     }

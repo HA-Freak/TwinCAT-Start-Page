@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
-namespace StartPageTcXaeShell64.UI.Interfaces
+namespace TwinCAT.XAE.StartPage.UI.Interfaces
 {
     using Core.Interfaces;
 

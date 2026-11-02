@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Converters
+namespace TwinCAT.XAE.StartPage.UI.Converters
 {
     using System;
     using System.Globalization;
@@ -9,7 +9,7 @@
     using static Core.Dates.DateMethods;
 
     // usage:
-    // xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
+    // xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
 
     //Text="{Binding Date, Converter={c:DateToStringConverter Format=d}}"
 

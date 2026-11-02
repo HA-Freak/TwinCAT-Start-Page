@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Enums
+namespace TwinCAT.XAE.StartPage.UI.Enums
 {
     using System;
 
@@ -19,40 +19,30 @@
 
             if (pinned)
             {
-                return (int)PeriodType.Pinned;
+                return PeriodType.Pinned;
             }
 
             var daysAgo = DaysAgo(currentDate, comparisonDate);
 
-            switch (daysAgo)
-            {
-                case 0:
-                    return PeriodType.Today;
+            if (daysAgo == 0)
+                return PeriodType.Today;
 
-                case 1:
-                    return PeriodType.Yesterday;
+            if (daysAgo == 1)
+                return PeriodType.Yesterday;
 
-                default:
-                    break;
-            }
+            if (comparisonDate >= currentDate.FirstDayOfWeek())
+                return PeriodType.ThisWeek;
 
-            return ThisWeek()
-                ? PeriodType.ThisWeek
-                : (LastWeek() || ThisMonth())
-                    ? PeriodType.ThisMonth
-                    : PeriodType.Older;
+            if (comparisonDate >= currentDate.FirstDayOfPreviousWeek())
+                return PeriodType.LastWeek;
 
-            bool ThisWeek()
-                => (comparisonDate < currentDate) && (comparisonDate >= currentDate.FirstDayOfWeek());
+            if (comparisonDate >= currentDate.FirstDayOfMonth())
+                return PeriodType.ThisMonth;
 
-            bool LastWeek()
-                => (comparisonDate >= currentDate.FirstDayOfPreviousWeek()) && (comparisonDate <= currentDate.LastDayOfPreviousWeek());
+            if (comparisonDate >= currentDate.FirstDayOfPreviousMonth())
+                return PeriodType.LastMonth;
 
-            bool ThisMonth()
-                => (comparisonDate >= currentDate.FirstDayOfNextMonth()) && (comparisonDate < currentDate.LastDayOfMonth());
-            //SRS TODO
-            //bool LastMonth()
-            //    => (comparisonDate >= currentDate.FirstDayOfPreviousMonth()) && (comparisonDate <= currentDate.LastDayOfPreviousMonth());
+            return PeriodType.Older;
         }
 
         public static string ToName(this PeriodType period)

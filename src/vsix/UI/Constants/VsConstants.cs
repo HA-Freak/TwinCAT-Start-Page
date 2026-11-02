@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.Shell.Interop;
+using Microsoft.VisualStudio.Shell.Interop;
 
-namespace StartPageTcXaeShell64.UI.Constants
+namespace TwinCAT.XAE.StartPage.UI.Constants
 {
     internal static class VsConstants
     {

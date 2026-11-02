@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using CommunityToolkit.Mvvm.Input;
@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.Messaging;
 
 using Microsoft.VisualStudio.Imaging;
 
-namespace StartPageTcXaeShell64.UI.Services.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Services.RecentItems
 {
     using Interfaces.RecentItems;
 
-    using StartPageTcXaeShell64.Core;
+    using TwinCAT.XAE.StartPage.Core;
 
     using ViewModels;
 

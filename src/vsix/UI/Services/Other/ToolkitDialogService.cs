@@ -1,12 +1,12 @@
-﻿using System;
+using System;
 
 using Community.VisualStudio.Toolkit;
 
 using Luminous.Code.Extensions.Exceptions;
 
-using StartPageTcXaeShell64.Core.Interfaces;
+using TwinCAT.XAE.StartPage.Core.Interfaces;
 
-namespace StartPageTcXaeShell64.UI.Services.Other
+namespace TwinCAT.XAE.StartPage.UI.Services.Other
 {
     internal class ToolkitDialogService : IDialogService
     {

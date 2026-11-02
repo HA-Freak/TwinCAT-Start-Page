@@ -1,13 +1,13 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.Services
+namespace TwinCAT.XAE.StartPage.UI.Services
 {
     using Core.Interfaces;
 
-    using StartPageTcXaeShell64.Core;
+    using TwinCAT.XAE.StartPage.Core;
 
     internal abstract class ServiceBase : IService
     {

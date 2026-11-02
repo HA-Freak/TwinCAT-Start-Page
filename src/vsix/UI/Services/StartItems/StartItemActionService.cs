@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.Services
+namespace TwinCAT.XAE.StartPage.UI.Services
 {
     using Core;
 
@@ -29,6 +29,9 @@ namespace StartPageTcXaeShell64.UI.Services
         public bool CreateNewProject()
             => _visualStudioService.CreateNewProject(StartItemsOptions.Instance.CreateProjectDelay);
 
+        public bool CreateTwinCatProject(string category = null)
+            => _visualStudioService.CreateTwinCatProject(StartItemsOptions.Instance.CreateProjectDelay, category);
+
         public bool OpenFolder()
             => _visualStudioService.OpenFolder(StartItemsOptions.Instance.OpenFolderDelay);
 
@@ -40,7 +43,7 @@ namespace StartPageTcXaeShell64.UI.Services
         public bool RestartVisualStudio(bool confirm, bool elevated)
             => _visualStudioService.Restart(confirm, elevated);
 
-        public bool OpenWebPage(string url, bool openInVS)
-            => _visualStudioService.OpenWebPage(url, openInVS);
+        public bool OpenWebPage(string url, bool openInVS, string title = null)
+            => _visualStudioService.OpenWebPage(url, openInVS, title);
     }
 }

@@ -1,9 +1,9 @@
-﻿namespace StartPageTcXaeShell64.UI.Interfaces.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Interfaces.RecentItems
 {
     using System.Collections.ObjectModel;
     using System.Threading.Tasks;
 
-    using StartPageTcXaeShell64.UI.ViewModels.RecentItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems;
 
     public interface IRecentItemDataService
     {

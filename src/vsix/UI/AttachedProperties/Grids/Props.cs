@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.AttachedProperties.Grids
+namespace TwinCAT.XAE.StartPage.UI.AttachedProperties.Grids
 {
     using System.Windows;
     using System.Windows.Controls;

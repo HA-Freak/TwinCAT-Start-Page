@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -22,7 +22,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Process = System.Diagnostics.Process;
 using Task = System.Threading.Tasks.Task;
 
-namespace StartPageTcXaeShell64.UI.Services.Other
+namespace TwinCAT.XAE.StartPage.UI.Services.Other
 {
     using Core;
     using Core.Interfaces;
@@ -74,7 +74,7 @@ namespace StartPageTcXaeShell64.UI.Services.Other
 
         //---
 
-        public bool OpenWebPage(string url, bool openInVS)
+        public bool OpenWebPage(string url, bool openInVS, string title = null)
         {
             try
             {
@@ -189,6 +189,21 @@ namespace StartPageTcXaeShell64.UI.Services.Other
                 return true;
             }
             catch (ArgumentException ex)
+            {
+                DialogService.ShowException(ex);
+                return false;
+            }
+        }
+
+        public bool CreateTwinCatProject(int delay, string category = null)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            try
+            {
+                return TwinCatProject.CreateInteractively(Dte, category);
+            }
+            catch (Exception ex)
             {
                 DialogService.ShowException(ex);
                 return false;

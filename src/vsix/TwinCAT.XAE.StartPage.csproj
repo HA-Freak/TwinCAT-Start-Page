@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -13,8 +13,8 @@
     <ProjectGuid>{CD79880B-C80E-4EA4-B143-9DC4AB760E51}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>StartPageTcXaeShell64</RootNamespace>
-    <AssemblyName>start-page-tcxaeshell64</AssemblyName>
+    <RootNamespace>TwinCAT.XAE.StartPage</RootNamespace>
+    <AssemblyName>TwinCAT.XAE.StartPage</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
@@ -72,6 +72,7 @@
     <Compile Include="UI\AttachedProperties\Grids\Props.cs" />
     <Compile Include="UI\Constants\GuidConstants.cs" />
     <Compile Include="UI\Converters\BoolToPinConverter.cs" />
+    <Compile Include="UI\Converters\BoolToGridLengthConverter.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\DateToStringConverter.cs" />
     <Compile Include="UI\Converters\DummyConverter.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="Core\Extensions\ExceptionExtensions.cs" />
     <Compile Include="Core\Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StartPageTcXaeShell64Package.cs" />
+    <Compile Include="StartPagePackage.cs" />
     <Compile Include="source.extension.vsix.cs">
       <DependentUpon>source.extension.vsixmanifest</DependentUpon>
     </Compile>
@@ -151,11 +152,12 @@
     <Compile Include="UI\Services\StartItems\StartItemCommandService.cs" />
     <Compile Include="UI\Services\StartItems\StartItemDataService.cs" />
     <Compile Include="UI\Services\Other\ToolkitDialogService.cs" />
+    <Compile Include="UI\Services\Other\TwinCatProject.cs" />
     <Compile Include="UI\Services\RecentItems\MruPrivateSettingsService.cs" />
     <Compile Include="UI\Services\RecentItems\RecentItemCommandService.cs" />
     <Compile Include="UI\Services\RecentItems\RecentItemDataService.cs" />
     <Compile Include="UI\Services\ServiceBase.cs" />
-    <Compile Include="DI\StartPagePlusContainer.cs" />
+    <Compile Include="DI\StartPageContainer.cs" />
     <Compile Include="UI\ViewModels\ColumnViewModel.cs" />
     <Compile Include="UI\ViewModels\CommandViewModel.cs" />
     <Compile Include="UI\ViewModels\ContextCommandViewModel.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="UI\ViewModels\RecentItems\RecentItemViewModel.cs" />
     <Compile Include="UI\ViewModels\StartItems\CloneRepositoryViewModel.cs" />
     <Compile Include="UI\ViewModels\StartItems\CreateProjectViewModel.cs" />
+    <Compile Include="UI\ViewModels\StartItems\NewTwinCatProjectLinkViewModel.cs" />
     <Compile Include="UI\ViewModels\StartItems\OpenFolderViewModel.cs" />
     <Compile Include="UI\ViewModels\StartItems\OpenProjectViewModel.cs" />
     <Compile Include="UI\ViewModels\StartItems\RestartElevatedViewModel.cs" />
@@ -176,6 +179,13 @@
     <Compile Include="UI\ViewModels\ViewModelManager.cs" />
     <Compile Include="UI\MarkupExtensions\MultValueConverterMarkupExtension.cs" />
     <Compile Include="UI\MarkupExtensions\ValueConverterMarkupExtension.cs" />
+    <Compile Include="UI\ToolWindows\BrowserWindow.cs" />
+    <Compile Include="UI\Views\BrowserView.xaml.cs">
+      <DependentUpon>BrowserView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Views\CreateTwinCatProjectDialog.xaml.cs">
+      <DependentUpon>CreateTwinCatProjectDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ToolWindows\MainWindow.cs" />
     <Compile Include="UI\ViewModels\MainViewModel.cs" />
     <Compile Include="UI\ViewModels\TabViewModel.cs" />
@@ -206,6 +216,12 @@
       <Link>Resources\LICENSE</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
+    <!-- native WebView2 loader must ship next to the managed WebView2 assemblies in the VSIX -->
+    <Content Include="$(NuGetPackageRoot)microsoft.web.webview2\1.0.2478.35\runtimes\win-x64\native\WebView2Loader.dll">
+      <Link>WebView2Loader.dll</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
       <Generator>VsixManifestGenerator</Generator>
@@ -220,6 +236,8 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -250,6 +268,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2">
+      <Version>1.0.2478.35</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.39</Version>
     </PackageReference>
@@ -266,6 +287,14 @@
     <Page Include="Resources\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Views\BrowserView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Views\CreateTwinCatProjectDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Views\MainView.xaml">
       <SubType>Designer</SubType>

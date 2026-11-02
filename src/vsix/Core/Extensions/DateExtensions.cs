@@ -44,9 +44,15 @@
             instance.FirstDayOfMonth().AddMonths(1).AddDays(-1);
 
         public static DateTime FirstDayOfNextMonth(this DateTime instance)
-            => new DateTime(instance.Year, instance.Month, 1);
+            => instance.FirstDayOfMonth().AddMonths(1);
 
         public static DateTime LastDayOfNextMonth(this DateTime instance)
             => instance.FirstDayOfNextMonth().AddMonths(1).AddDays(-1);
+
+        public static DateTime FirstDayOfPreviousMonth(this DateTime instance)
+            => instance.FirstDayOfMonth().AddMonths(-1);
+
+        public static DateTime LastDayOfPreviousMonth(this DateTime instance)
+            => instance.FirstDayOfMonth().AddDays(-1);
     }
 }

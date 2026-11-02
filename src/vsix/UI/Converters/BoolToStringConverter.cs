@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Converters
+namespace TwinCAT.XAE.StartPage.UI.Converters
 {
     using System;
     using System.Globalization;

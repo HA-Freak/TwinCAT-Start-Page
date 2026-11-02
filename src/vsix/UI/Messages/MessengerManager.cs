@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.Messages
+namespace TwinCAT.XAE.StartPage.UI.Messages
 {
     using DI;
 
     internal class MessengerManager
     {
-        private static StartPageTcXaeShell64Container _container;
+        private static StartPageContainer _container;
 
         //---
 
@@ -17,7 +17,7 @@ namespace StartPageTcXaeShell64.UI.Messages
 
         //---
 
-        public static void RegisterMessenger(StartPageTcXaeShell64Container container)
+        public static void RegisterMessenger(StartPageContainer container)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
 

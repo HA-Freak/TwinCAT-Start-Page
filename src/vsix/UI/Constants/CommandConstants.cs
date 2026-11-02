@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Constants
+namespace TwinCAT.XAE.StartPage.UI.Constants
 {
     internal static class CommandConstants
     {

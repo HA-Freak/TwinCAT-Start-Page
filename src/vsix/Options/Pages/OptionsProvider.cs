@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.Options.Pages
+namespace TwinCAT.XAE.StartPage.Options.Pages
 {
     // each options page needs to add itself to this partial class
     internal partial class OptionsProvider

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.StartItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.StartItems
 {
     using Core.Interfaces;
 

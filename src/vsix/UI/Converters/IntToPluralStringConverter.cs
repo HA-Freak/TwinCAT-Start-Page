@@ -1,10 +1,10 @@
-﻿// usage:
+// usage:
 // xmlns:dat="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
-// xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
+// xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
 
 //Text="{Binding ItemCount, Converter={c:IntToPluralStringConverter, Text=item}}"/>
 
-namespace StartPageTcXaeShell64.UI.Converters
+namespace TwinCAT.XAE.StartPage.UI.Converters
 {
     using System;
     using System.Globalization;

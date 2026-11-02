@@ -1,14 +1,14 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.Shell;
 
-namespace StartPageTcXaeShell64.UI.Interfaces
+namespace TwinCAT.XAE.StartPage.UI.Interfaces
 {
     public interface IVisualStudioService
     {
         bool ExecuteCommand(string action, string args = "", int delay = 0);
 
-        bool OpenWebPage(string url, bool internalBrowser);
+        bool OpenWebPage(string url, bool internalBrowser, string title = null);
 
         bool CloneRepository(int delay);
 
@@ -27,6 +27,8 @@ namespace StartPageTcXaeShell64.UI.Interfaces
         //---
 
         bool CreateNewProject(int delay);
+
+        bool CreateTwinCatProject(int delay, string category = null);
 
         bool Restart(bool confirm = true, bool elevated = false);
 

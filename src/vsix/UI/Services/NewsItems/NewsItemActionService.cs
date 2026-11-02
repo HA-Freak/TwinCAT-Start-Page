@@ -1,10 +1,10 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.Services
+namespace TwinCAT.XAE.StartPage.UI.Services
 {
     using Core.Interfaces;
 
-    using StartPageTcXaeShell64.Core;
+    using TwinCAT.XAE.StartPage.Core;
 
     using UI.Interfaces;
 
@@ -22,7 +22,7 @@ namespace StartPageTcXaeShell64.UI.Services
         {
             var url = currentViewModel.Link;
 
-            VisualStudioService.OpenWebPage(url, internalBrowser);
+            VisualStudioService.OpenWebPage(url, internalBrowser, currentViewModel.Title);
         }
     }
 }

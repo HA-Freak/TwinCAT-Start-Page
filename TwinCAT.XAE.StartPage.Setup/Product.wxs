@@ -8,8 +8,8 @@ When we release a new version we must
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*"
-           Version="1.0.1.0"
-           Name="TwinCATStartPagex64"
+           Version="1.1.45"
+           Name="TwinCAT.XAE.StartPage"
            Language="1033"
            Manufacturer="HA-Freak"
            UpgradeCode="0bad7df4-e46c-45ce-bf19-449671f6a77d">
@@ -34,6 +34,10 @@ When we release a new version we must
 
     <Property Id="RUNFROMTCPKG"/>
 
+    <!-- hide the entry from Windows Apps / Programs and Features; the uninstall
+         registry key remains, so the TcPkg uninstall script still finds it -->
+    <Property Id="ARPSYSTEMCOMPONENT" Value="1"/>
+
     <!--Condition Message="Please use the TwinCAT Package Manager to install this Software">
       RUNFROMTCPKG
     </Condition-->
@@ -52,14 +56,14 @@ When we release a new version we must
             <Directory Id="Common7DirId" Name="Common7">
               <Directory Id="IDEDirId" Name="IDE">
                 <Directory Id="ExtensionsDirId" Name="Extensions">
-                  <Directory Id="TwinCATStartPagex64DirId" Name="TwinCATStartPagex64">
+                  <Directory Id="TwinCATStartPagex64DirId" Name="TwinCAT.XAE.StartPage">
                     <Component Id="TwinCATStartPagex64TcXaeShell64Resources" Guid="a2dd8ac2-b951-0933-30c3-912a7e478e6e">
 
                       <File Id="MicrosoftXamlBehaviorsDllId" Name="Microsoft.Xaml.Behaviors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.dll"/>
                       <File Id="MicrosoftXamlBehaviorsPdbId" Name="Microsoft.Xaml.Behaviors.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.pdb"/>
-                      <File Id="StartPageTcXaeShell6464bitdllId" Name="start-page-tcxaeshell64.dll" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-tcxaeshell64.dll"/>
-                      <File Id="StartPageTcXaeShell6464bitpdbId" Name="start-page-tcxaeshell64.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-tcxaeshell64.pdb"/>
-                      <File Id="StartPageTcXaeShell6464bitpkgdefId" Name="start-page-tcxaeshell64.pkgdef" Vital="yes" Source="..\src\vsix\bin\Debug\start-page-tcxaeshell64.pkgdef"/>
+                      <File Id="StartPageTcXaeShell6464bitdllId" Name="TwinCAT.XAE.StartPage.dll" Vital="yes" Source="..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.dll"/>
+                      <File Id="StartPageTcXaeShell6464bitpdbId" Name="TwinCAT.XAE.StartPage.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.pdb"/>
+                      <File Id="StartPageTcXaeShell6464bitpkgdefId" Name="TwinCAT.XAE.StartPage.pkgdef" Vital="yes" Source="..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.pkgdef"/>
                       <File Id="SystemComponentModelAnnotationsDllId" Name="System.ComponentModel.Annotations.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.ComponentModel.Annotations.dll"/>
                       <File Id="SystemNumericsVectorsDllId" Name="System.Numerics.Vectors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.Numerics.Vectors.dll"/>
                       <File Id="CommunityVisualStudioToolkitDllId" Name="Community.VisualStudio.Toolkit.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Community.VisualStudio.Toolkit.dll"/>
@@ -68,6 +72,10 @@ When we release a new version we must
                       <File Id="ExtensionVsixmanifestId" Name="extension.vsixmanifest" Vital="yes" Source="..\src\vsix\bin\Debug\extension.vsixmanifest"/>
                       <File Id="MicrosoftExtensionsDependencyInjectionAbstractionsDllId" Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
                       <File Id="MicrosoftExtensionsDependencyInjectionDllId" Name="Microsoft.Extensions.DependencyInjection.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Extensions.DependencyInjection.dll"/>
+                      <File Id="MicrosoftWebWebView2CoreDllId" Name="Microsoft.Web.WebView2.Core.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Web.WebView2.Core.dll"/>
+                      <File Id="MicrosoftWebWebView2WpfDllId" Name="Microsoft.Web.WebView2.Wpf.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Web.WebView2.Wpf.dll"/>
+                      <File Id="MicrosoftWebWebView2WinFormsDllId" Name="Microsoft.Web.WebView2.WinForms.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Web.WebView2.WinForms.dll"/>
+                      <File Id="WebView2LoaderDllId" Name="WebView2Loader.dll" Vital="yes" Source="..\src\vsix\bin\Debug\WebView2Loader.dll"/>
 
 
 

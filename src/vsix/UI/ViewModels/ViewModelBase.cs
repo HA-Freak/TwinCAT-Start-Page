@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels
+namespace TwinCAT.XAE.StartPage.UI.ViewModels
 {
     using Interfaces;
 
-    using StartPageTcXaeShell64.Core;
-    using StartPageTcXaeShell64.UI.Services;
+    using TwinCAT.XAE.StartPage.Core;
+    using TwinCAT.XAE.StartPage.UI.Services;
 
     public class ViewModelBase : ObservableRecipient, IViewModel
     {

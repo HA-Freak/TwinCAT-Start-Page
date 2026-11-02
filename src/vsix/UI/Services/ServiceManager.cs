@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
 using Community.VisualStudio.Toolkit;
 
 using Luminous.Code.Extensions.Exceptions; //YD:???
 
-namespace StartPageTcXaeShell64.UI.Services
+namespace TwinCAT.XAE.StartPage.UI.Services
 {
     using Core;
     using Core.Interfaces;
@@ -27,7 +27,7 @@ namespace StartPageTcXaeShell64.UI.Services
 
     internal class ServiceManager
     {
-        private static StartPageTcXaeShell64Container _container;
+        private static StartPageContainer _container;
 
         //---
 
@@ -39,7 +39,7 @@ namespace StartPageTcXaeShell64.UI.Services
 
         //---
 
-        public static void RegisterServices(StartPageTcXaeShell64Container container)
+        public static void RegisterServices(StartPageContainer container)
         {
             try
             {

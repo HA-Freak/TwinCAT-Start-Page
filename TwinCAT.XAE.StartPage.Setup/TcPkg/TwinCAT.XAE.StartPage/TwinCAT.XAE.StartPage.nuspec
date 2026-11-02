@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>TwinCAT.XAE.StartPage</id>
+    <version>1.1.45</version>
+    <title>TwinCAT Start Page</title>
+    <authors>HA-Freak</authors>
+    <description>Start page extension for the TwinCAT XAE Shell (64-bit) Visual Studio 2022 and 2026. Brings back the start page as a document tab with recent projects, start actions and Beckhoff TwinCAT news.</description>
+    <summary>Start page extension for TcXaeShell64</summary>
+    <!-- the shell tags (TCXAESHELL64, VS2022, VS2026) tell TcPkg which per-shell variant packages to resolve: <id>.<shell> -->
+    <tags>Beckhoff TwinCAT Workload CategoryGeneral VariantXAE TCXAESHELL64 VS2022 VS2026</tags>
+    <projectUrl>https://github.com/HA-Freak/TwinCAT-Start-Page</projectUrl>
+    <icon>images\icon.png</icon>
+    <dependencies>
+      <dependency id="TwinCAT.Shell64.XAE" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\icon.png" target="images" />
+  </files>
+</package>

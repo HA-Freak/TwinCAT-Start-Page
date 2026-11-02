@@ -1,13 +1,13 @@
 ﻿<UserControl
-    x:Class="StartPageTcXaeShell64.UI.Views.NewsItems.NewsItemsView"
+    x:Class="TwinCAT.XAE.StartPage.UI.Views.NewsItems.NewsItemsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
+    xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
     xmlns:catalog="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.ImageCatalog"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dat="clr-namespace:System.Windows.Data;assembly=PresentationFramework"
-    xmlns:grid="clr-namespace:StartPageTcXaeShell64.UI.AttachedProperties.Grids"
+    xmlns:grid="clr-namespace:TwinCAT.XAE.StartPage.UI.AttachedProperties.Grids"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
@@ -21,8 +21,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Brushes.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TwinCAT.XAE.StartPage;component/Resources/Brushes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TwinCAT.XAE.StartPage;component/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <utilities:BrushToColorConverter x:Key="BrushToColorConverter"/>
@@ -31,255 +31,327 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border
-        pui:ImageThemingUtilities.ImageBackgroundColor="{Binding Background.Color, RelativeSource={RelativeSource Self}}"
-        Style="{StaticResource ColumnStyle}"
-        Visibility="{Binding IsVisible, Converter={c:BoolToVisibilityConverter}}"
-        >
-        <DockPanel x:Name="LayoutRoot"
-            LastChildFill="true"
+    <Grid>
+        <!-- minimized: a vertical 'News' tab at the right edge, like the TwinCAT 3 start page -->
+        <Button x:Name="NewsStrip"
+            Width="30"
+            Height="250"
+            Margin="0,10,10,10"
+            VerticalAlignment="Top"
+            Command="{Binding ToggleMinimizedCommand}"
+            Cursor="Hand"
+            IsTabStop="False"
+            ToolTip="Show news"
+            Visibility="{Binding IsMinimized, Converter={c:BoolToVisibilityConverter}}"
             >
-            <TextBlock x:Name="Heading"
-                DockPanel.Dock="Top"
-                Style="{StaticResource ColumnHeadingStyle}"
-                Text="{Binding Heading}"
-                />
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border
+                        Background="{DynamicResource ColumnBackgroundBrush}"
+                        BorderBrush="{DynamicResource ColumnBorderBrush}"
+                        BorderThickness="1"
+                        >
+                        <TextBlock x:Name="StripText"
+                            Margin="0,8,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontFamily="{StaticResource DefaultFont}"
+                            FontSize="15"
+                            FontWeight="Medium"
+                            Foreground="{DynamicResource ColumnHeadingBrush}"
+                            Text="{Binding Heading}"
+                            >
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Border>
 
-            <Grid x:Name="NewsItemFilterContainer"
-                Margin="10,0,10,6"
-                DockPanel.Dock="Top"
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="StripText" Property="Foreground" Value="{DynamicResource CommandMouseOverBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <Border
+            pui:ImageThemingUtilities.ImageBackgroundColor="{Binding Background.Color, RelativeSource={RelativeSource Self}}"
+            Style="{StaticResource ColumnStyle}"
+            Visibility="{Binding IsMinimized, Converter={c:BoolToVisibilityConverter Reverse=True}}"
+            >
+            <DockPanel x:Name="LayoutRoot"
+                LastChildFill="true"
                 >
-                <TextBox x:Name="FilterTextBox"
-                    Grid.Column="0"
-                    Background="{DynamicResource FilterBackgroundBrush}"
-                    FocusManager.FocusedElement="{Binding ElementName=FilterTextBox}"
-                    FontFamily="{StaticResource DefaultFont}"
-                    FontSize="14"
-                    Foreground="{DynamicResource FilterForegroundBrush}"
-                    IsTabStop="true"
-                    />
-                <Button x:Name="ClearFilterTextButton"
-                    Grid.Column="1"
-                    HorizontalAlignment="Right"
-                    HorizontalContentAlignment="Center"
-                    VerticalContentAlignment="Center"
-                    Background="{Binding Background, ElementName=FilterTextBox}"
-                    BorderBrush="Transparent"
-                    Click="ClearFilterText_Click"
-                    IsTabStop="False"
-                    Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
-                    >
-                    <imaging:CrispImage x:Name="ClearFilterImage"
-                        Width="16"
-                        Height="16"
-                        HorizontalAlignment="Center"
+                <DockPanel DockPanel.Dock="Top">
+                    <Button x:Name="MinimizeButton"
+                        Margin="0,10,10,5"
                         VerticalAlignment="Center"
-                        Moniker="{x:Static catalog:KnownMonikers.Close}"
-                        />
-                </Button>
-            </Grid>
-
-            <ItemsControl x:Name="NewsItemCommands"
-                Style="{StaticResource ColumnCommandsStyle}"
-                />
-
-            <ListView x:Name="NewsItemsListView"
-                IsTabStop="False"
-                ItemContainerStyle="{StaticResource ColumnListItemContainerStyle}"
-                ItemsSource="{Binding Items}"
-                SelectionChanged="OnSelectionChanged"
-                Style="{StaticResource ColumnListStyle}"
-                >
-                <!--<ListView.GroupStyle>
-                    <GroupStyle>
-                        <GroupStyle.ContainerStyle>
-                            <Style TargetType="GroupItem">
-                                <Setter Property="IsTabStop" Value="False"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type GroupItem}">
-                                            <Expander
-                                                Collapsed="OnCollapsed"
-                                                Expanded="OnExpanded"
-                                                IsExpanded="True"
-                                                IsTabStop="False"
-                                                OverridesDefaultStyle="True"
-                                                >
-                                                <Expander.Header>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock x:Name="NewsItemGroupName"
-                                                            Margin="5,1,5,2"
-                                                            HorizontalAlignment="Left"
-                                                            FontFamily="{StaticResource DefaultFont}"
-                                                            FontSize="15"
-                                                            FontWeight="Medium"
-                                                            Foreground="{DynamicResource ItemGroupNameBrush}"
-                                                            Text="{Binding Path=Name, Converter={c:PeriodTypeToNameConverter}}"
-                                                            />
-                                                        <TextBlock x:Name="NewsItemGroupCount"
-                                                            Margin="2,0,0,0"
-                                                            VerticalAlignment="Center"
-                                                            FontFamily="{StaticResource DefaultFont}"
-                                                            FontSize="14"
-                                                            FontStyle="Normal"
-                                                            FontWeight="Medium"
-                                                            Foreground="{DynamicResource ItemGroupCountBrush}"
-                                                            Text="{Binding ItemCount, Converter={c:IntToPluralStringConverter}}"
-                                                            />
-                                                    </StackPanel>
-                                                </Expander.Header>
-
-                                                <ItemsPresenter/>
-                                            </Expander>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </GroupStyle.ContainerStyle>
-                    </GroupStyle>
-                </ListView.GroupStyle>-->
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <!--<Button x:Name="NewsItemButton"
-                            Command="{Binding SelectItemCommand}"
-                            IsTabStop="False"
-                            Style="{StaticResource ColumnListItemStyle}"
-                            ToolTipService.InitialShowDelay="1000"
-                            ToolTipService.ShowDuration="7000"
-                            ToolTipService.BetweenShowDelay="2000"
-                            ToolTipService.Placement="Bottom" 
-                            ToolTipService.HasDropShadow="true"
-                            ToolTipService.ShowOnDisabled="true" 
-                            ToolTipService.IsEnabled="{Binding ShowTooltip}"
-                            >-->
-                            <!--<Button.ToolTip>
-                                <ToolTip x:Name="NewsItemTooltip" 
-                                    MaxWidth="500" 
-                                    MaxHeight="500"
+                        Command="{Binding ToggleMinimizedCommand}"
+                        Cursor="Hand"
+                        DockPanel.Dock="Right"
+                        IsTabStop="False"
+                        ToolTip="Minimize news"
+                        >
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border
+                                    Padding="4"
+                                    Background="Transparent"
                                     >
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock 
-                                            Style="{StaticResource NewsItemTitleStyle}"
-                                            Text="{Binding Title}"
-                                            TextWrapping="WrapWithOverflow"
+                                    <TextBlock x:Name="MinimizeGlyph"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="12"
+                                        Foreground="{DynamicResource ColumnHeadingBrush}"
+                                        Text="&#xE76C;"
+                                        />
+                                </Border>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="MinimizeGlyph" Property="Foreground" Value="{DynamicResource CommandMouseOverBrush}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <TextBlock x:Name="Heading"
+                        Style="{StaticResource ColumnHeadingStyle}"
+                        Text="{Binding Heading}"
+                        />
+                </DockPanel>
+
+                <Grid x:Name="NewsItemFilterContainer"
+                    Margin="10,0,10,6"
+                    DockPanel.Dock="Top"
+                    >
+                    <TextBox x:Name="FilterTextBox"
+                        Grid.Column="0"
+                        Background="{DynamicResource FilterBackgroundBrush}"
+                        FocusManager.FocusedElement="{Binding ElementName=FilterTextBox}"
+                        FontFamily="{StaticResource DefaultFont}"
+                        FontSize="14"
+                        Foreground="{DynamicResource FilterForegroundBrush}"
+                        IsTabStop="true"
+                        />
+                    <Button x:Name="ClearFilterTextButton"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="{Binding Background, ElementName=FilterTextBox}"
+                        BorderBrush="Transparent"
+                        Click="ClearFilterText_Click"
+                        IsTabStop="False"
+                        Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                        >
+                        <imaging:CrispImage x:Name="ClearFilterImage"
+                            Width="16"
+                            Height="16"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Moniker="{x:Static catalog:KnownMonikers.Close}"
+                            />
+                    </Button>
+                </Grid>
+
+                <ItemsControl x:Name="NewsItemCommands"
+                    Style="{StaticResource ColumnCommandsStyle}"
+                    />
+
+                <ListView x:Name="NewsItemsListView"
+                    IsTabStop="False"
+                    ItemContainerStyle="{StaticResource ColumnListItemContainerStyle}"
+                    ItemsSource="{Binding Items}"
+                    SelectionChanged="OnSelectionChanged"
+                    Style="{StaticResource ColumnListStyle}"
+                    >
+                    <!--<ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="GroupItem">
+                                    <Setter Property="IsTabStop" Value="False"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander
+                                                    Collapsed="OnCollapsed"
+                                                    Expanded="OnExpanded"
+                                                    IsExpanded="True"
+                                                    IsTabStop="False"
+                                                    OverridesDefaultStyle="True"
+                                                    >
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock x:Name="NewsItemGroupName"
+                                                                Margin="5,1,5,2"
+                                                                HorizontalAlignment="Left"
+                                                                FontFamily="{StaticResource DefaultFont}"
+                                                                FontSize="15"
+                                                                FontWeight="Medium"
+                                                                Foreground="{DynamicResource ItemGroupNameBrush}"
+                                                                Text="{Binding Path=Name, Converter={c:PeriodTypeToNameConverter}}"
+                                                                />
+                                                            <TextBlock x:Name="NewsItemGroupCount"
+                                                                Margin="2,0,0,0"
+                                                                VerticalAlignment="Center"
+                                                                FontFamily="{StaticResource DefaultFont}"
+                                                                FontSize="14"
+                                                                FontStyle="Normal"
+                                                                FontWeight="Medium"
+                                                                Foreground="{DynamicResource ItemGroupCountBrush}"
+                                                                Text="{Binding ItemCount, Converter={c:IntToPluralStringConverter}}"
+                                                                />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+
+                                                    <ItemsPresenter/>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </ListView.GroupStyle>-->
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Button x:Name="NewsItemButton"
+                                Command="{Binding SelectItemCommand}"
+                                IsTabStop="False"
+                                Style="{StaticResource ColumnListItemStyle}"
+                                >
+                                <!--<Button.ToolTip>
+                                    <ToolTip x:Name="NewsItemTooltip" 
+                                        MaxWidth="500" 
+                                        MaxHeight="500"
+                                        >
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock 
+                                                Style="{StaticResource NewsItemTitleStyle}"
+                                                Text="{Binding Title}"
+                                                TextWrapping="WrapWithOverflow"
+                                                />
+                                            <TextBlock Text="{Binding Description}"
+                                                Style="{StaticResource NewsItemDescriptionStyle}"
+                                                TextWrapping="WrapWithOverflow"
+                                                />
+                                            <TextBlock Text="{Binding Link}"
+                                                Style="{StaticResource NewsItemLinkStyle}"
+                                                />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </Button.ToolTip>-->
+
+                                <DockPanel x:Name="NewsItemContainer"
+                                    Margin="0,0,0,5"
+                                    >
+                                    <TextBlock x:Name="NewsItemTitle"
+                                        Style="{StaticResource NewsItemTitleStyle}"
+                                        DockPanel.Dock="Top"
+                                        Text="{Binding Title}"
+                                        TextTrimming="WordEllipsis"
+                                        TextWrapping="NoWrap"
+                                        Foreground="#4eaffc"
+                                        />
+
+                                    <TextBlock x:Name="NewsItemDescription"
+                                        Style="{StaticResource NewsItemDescriptionStyle}"
+                                        DockPanel.Dock="Top"
+                                        MaxHeight="50"
+                                        Text="{Binding Description}"        
+                                        TextTrimming="WordEllipsis"
+                                        TextWrapping="Wrap"
+                                        />
+
+                                    <StackPanel x:Name="DatePanel"
+                                        Margin="0,4,0,0"
+                                        DockPanel.Dock="Top"
+                                        Orientation="Horizontal"
+                                        >
+                                        <TextBlock x:Name="NewsItemNewIndicator"
+                                            FontFamily="{StaticResource DefaultFont}"
+                                            FontSize="10"
+                                            Foreground="Orange"
+                                            Text="{Binding New}"
+                                            Visibility="Collapsed"
                                             />
-                                        <TextBlock Text="{Binding Description}"
-                                            Style="{StaticResource NewsItemDescriptionStyle}"
-                                            TextWrapping="WrapWithOverflow"
-                                            />
-                                        <TextBlock Text="{Binding Link}"
-                                            Style="{StaticResource NewsItemLinkStyle}"
+
+                                        <TextBlock x:Name="NewsItenDate"
+                                            FontFamily="{StaticResource DefaultFont}"
+                                            FontSize="11"
+                                            FontWeight="Medium"
+                                            Foreground="{DynamicResource ItemDateBrush}"
+                                            Text="{Binding Date, StringFormat='dddd, d MMMM yyyy, HH:mm'}"
                                             />
                                     </StackPanel>
-                                </ToolTip>
-                            </Button.ToolTip>-->
+                                </DockPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
 
-                            <DockPanel x:Name="NewsItemContainer"
-                                Margin="0,0,0,5"
-                                >
-                                <TextBlock x:Name="NewsItemTitle"
-                                    Style="{StaticResource NewsItemTitleStyle}"
-                                    DockPanel.Dock="Top"
-                                    Text="{Binding Title}"
-                                    TextTrimming="WordEllipsis"
-                                    TextWrapping="NoWrap"
-                                    Foreground="#4eaffc"
-                                    />
+                    <!--<ListView.ContextMenu>
+                        <ContextMenu x:Name="NewsItemsContextMenu"
+                            ItemsSource="{Binding ContextCommands}"
+                            >
+                            <ContextMenu.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                    <Setter Property="Command" Value="{Binding Command}"/>
+                                    <Setter Property="Visibility" Value="{Binding IsVisible, Converter={c:BoolToVisibilityConverter}}"/>
+                                </Style>
+                            </ContextMenu.ItemContainerStyle>
 
-                                <TextBlock x:Name="NewsItemDescription"
-                                    Style="{StaticResource NewsItemDescriptionStyle}"
-                                    DockPanel.Dock="Top"
-                                    MaxHeight="50"
-                                    Text="{Binding Description}"        
-                                    TextTrimming="WordEllipsis"
-                                    TextWrapping="Wrap"
-                                    />
+                            <ContextMenu.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel x:Name="NewsItemContextCommand"
+                                        Orientation="Horizontal"
+                                        >
+                                        <imaging:CrispImage x:Name="NewsItemContextCommandImage"
+                                            Width="16"
+                                            Height="16"
+                                            Margin="-42,0,0,0"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Moniker="{Binding Moniker}"
+                                            Stretch="Fill"
+                                            />
+                                        <TextBlock x:Name="NewsItemContextCommandName"
+                                            FontFamily="{StaticResource DefaultFont}"
+                                            Text="{Binding Name}"
+                                            />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ContextMenu.ItemTemplate>
+                        </ContextMenu>
+                    </ListView.ContextMenu>-->
 
-                                <StackPanel x:Name="DatePanel"
-                                    Margin="0,4,0,0"
-                                    DockPanel.Dock="Top"
-                                    Orientation="Horizontal"
-                                    >
-                                    <TextBlock x:Name="NewsItemNewIndicator"
-                                        FontFamily="{StaticResource DefaultFont}"
-                                        FontSize="10"
-                                        Foreground="Orange"
-                                        Text="{Binding New}"
-                                        Visibility="Collapsed"
-                                        />
+                    <!-- WPF bug: one element has to be given a name or the DLL doesn't load in time -->
 
-                                    <TextBlock x:Name="NewsItenDate"
-                                        FontFamily="{StaticResource DefaultFont}"
-                                        FontSize="11"
-                                        FontWeight="Medium"
-                                        Foreground="{DynamicResource ItemDateBrush}"
-                                        Text="{Binding Date, StringFormat='dddd, d MMMM yyyy'}"
-                                        />
-                                </StackPanel>
-                            </DockPanel>
-                        <!--</Button>-->
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                    <!--<b:Interaction.Triggers>
+                        <b:EventTrigger x:Name="ContextMenuOpeningEventTrigger"
+                            EventName="ContextMenuOpening"
+                            >
+                            <b:CallMethodAction
+                                MethodName="OnContextMenuOpening"
+                                TargetObject="{Binding}"
+                                />
+                        </b:EventTrigger>
 
-                <!--<ListView.ContextMenu>
-                    <ContextMenu x:Name="NewsItemsContextMenu"
-                        ItemsSource="{Binding ContextCommands}"
-                        >
-                        <ContextMenu.ItemContainerStyle>
-                            <Style TargetType="MenuItem">
-                                <Setter Property="Command" Value="{Binding Command}"/>
-                                <Setter Property="Visibility" Value="{Binding IsVisible, Converter={c:BoolToVisibilityConverter}}"/>
-                            </Style>
-                        </ContextMenu.ItemContainerStyle>
-
-                        <ContextMenu.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel x:Name="NewsItemContextCommand"
-                                    Orientation="Horizontal"
-                                    >
-                                    <imaging:CrispImage x:Name="NewsItemContextCommandImage"
-                                        Width="16"
-                                        Height="16"
-                                        Margin="-42,0,0,0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Moniker="{Binding Moniker}"
-                                        Stretch="Fill"
-                                        />
-                                    <TextBlock x:Name="NewsItemContextCommandName"
-                                        FontFamily="{StaticResource DefaultFont}"
-                                        Text="{Binding Name}"
-                                        />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ContextMenu.ItemTemplate>
-                    </ContextMenu>
-                </ListView.ContextMenu>-->
-
-                <!-- WPF bug: one element has to be given a name or the DLL doesn't load in time -->
-
-                <!--<b:Interaction.Triggers>
-                    <b:EventTrigger x:Name="ContextMenuOpeningEventTrigger"
-                        EventName="ContextMenuOpening"
-                        >
-                        <b:CallMethodAction
-                            MethodName="OnContextMenuOpening"
-                            TargetObject="{Binding}"
-                            />
-                    </b:EventTrigger>
-
-                    <b:EventTrigger x:Name="ContextMenuClosingEventTrigger"
-                        EventName="ContextMenuClosing"
-                        >
-                        <b:CallMethodAction
-                            MethodName="OnContextMenuClosing"
-                            TargetObject="{Binding}"
-                            />
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>-->
-            </ListView>
-        </DockPanel>
-    </Border>
+                        <b:EventTrigger x:Name="ContextMenuClosingEventTrigger"
+                            EventName="ContextMenuClosing"
+                            >
+                            <b:CallMethodAction
+                                MethodName="OnContextMenuClosing"
+                                TargetObject="{Binding}"
+                                />
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>-->
+                </ListView>
+            </DockPanel>
+        </Border>
+    </Grid>
 </UserControl>

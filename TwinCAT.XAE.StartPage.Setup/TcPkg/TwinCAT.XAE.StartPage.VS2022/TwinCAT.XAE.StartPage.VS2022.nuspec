@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>TwinCAT.XAE.StartPage.VS2022</id>
+    <version>1.1.45</version>
+    <title>TwinCAT Start Page (Visual Studio 2022 integration)</title>
+    <authors>HA-Freak</authors>
+    <description>Visual Studio 2022 integration for the TwinCAT Start Page extension. Installed automatically by the TwinCAT.XAE.StartPage package.</description>
+    <summary>Start page extension - Visual Studio 2022 integration</summary>
+    <tags>Setup UpdateConfigurationOption</tags>
+    <projectUrl>https://github.com/HA-Freak/TwinCAT-Start-Page</projectUrl>
+    <icon>images\icon.png</icon>
+  </metadata>
+  <files>
+    <file src="..\icon.png" target="images" />
+    <file src="tools\**" target="tools" />
+    <file src="..\..\..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.vsix" target="tools" />
+  </files>
+</package>

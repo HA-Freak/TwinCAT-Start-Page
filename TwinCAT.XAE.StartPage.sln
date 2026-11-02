@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartPageTcXaeShell64", "src\vsix\StartPageTcXaeShell64.csproj", "{CD79880B-C80E-4EA4-B143-9DC4AB760E51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwinCAT.XAE.StartPage", "src\vsix\TwinCAT.XAE.StartPage.csproj", "{CD79880B-C80E-4EA4-B143-9DC4AB760E51}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "SetupStartPageTcXaeShell64", "SetupStartPageTcXaeShell64\SetupStartPageTcXaeShell64.wixproj", "{E4335979-0285-41EC-9950-C6732A222D21}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TwinCAT.XAE.StartPage.Setup", "TwinCAT.XAE.StartPage.Setup\TwinCAT.XAE.StartPage.Setup.wixproj", "{E4335979-0285-41EC-9950-C6732A222D21}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CD79880B-C80E-4EA4-B143-9DC4AB760E51} = {CD79880B-C80E-4EA4-B143-9DC4AB760E51}
 	EndProjectSection

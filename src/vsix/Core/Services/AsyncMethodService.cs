@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 using Microsoft.VisualStudio.Shell;
 
-namespace StartPageTcXaeShell64.Core.Services
+namespace TwinCAT.XAE.StartPage.Core.Services
 {
     using Interfaces;
 

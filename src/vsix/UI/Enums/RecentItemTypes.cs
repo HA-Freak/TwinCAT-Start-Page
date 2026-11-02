@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Enums
+namespace TwinCAT.XAE.StartPage.UI.Enums
 {
     using System;
     using System.IO;

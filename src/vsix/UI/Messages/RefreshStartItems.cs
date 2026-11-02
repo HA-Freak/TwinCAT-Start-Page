@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Messages
+namespace TwinCAT.XAE.StartPage.UI.Messages
 {
     public sealed class RefreshStartItems
     { }

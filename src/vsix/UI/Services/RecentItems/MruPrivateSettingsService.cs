@@ -1,7 +1,8 @@
-﻿namespace StartPageTcXaeShell64.UI.Services.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Services.RecentItems
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Xml;
@@ -13,10 +14,10 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
 
-    using StartPageTcXaeShell64.Core;
-    using StartPageTcXaeShell64.UI.Interfaces.RecentItems;
-    using StartPageTcXaeShell64.UI.Models;
-    using StartPageTcXaeShell64.UI.ViewModels;
+    using TwinCAT.XAE.StartPage.Core;
+    using TwinCAT.XAE.StartPage.UI.Interfaces.RecentItems;
+    using TwinCAT.XAE.StartPage.UI.Models;
+    using TwinCAT.XAE.StartPage.UI.ViewModels;
 
     internal class MruPrivateSettingsService : ServiceBase, IMruService
     {
@@ -34,159 +35,76 @@
 
         //---
 
-        public async Task<List<RecentItem>> GetItemsAsync()
-        {
-            List<RecentItem> items;
+        public Task<List<RecentItem>> GetItemsAsync()
+            => LoadAsync();
 
-            try
-            {
-                items = await LoadAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+        public Task<bool> PinItemAsync(string key)
+            => SetPinnedAsync(key, true);
 
-            return items;
-        }
-
-        public async Task<bool> PinItemAsync(string key)
-        {
-            bool result;
-
-            try
-            {
-                result = await SetPinnedAsync(key, true);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
-        }
-
-        public async Task<bool> UnpinItemAsync(string key)
-        {
-            bool result;
-
-            try
-            {
-                result = await SetPinnedAsync(key, false);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
-        }
+        public Task<bool> UnpinItemAsync(string key)
+            => SetPinnedAsync(key, false);
 
         public async Task<bool> RemoveItemAsync(string key)
         {
-            bool result;
+            var items = await LoadAsync();
+            if (items is null)
+                return false;
 
-            try
-            {
-                var items = await LoadAsync();
-                if (items is null)
-                    return false;
+            var item = items.FirstOrDefault(x => x.Key == key);
+            if (item is null)
+                return false;
 
-                var item = items.FirstOrDefault(x => x.Key == key);
-                if (item is null)
-                    return false;
+            items.Remove(item);
 
-                items.Remove(item);
-
-                result = await SaveAsync(items);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
+            return await SaveAsync(items);
         }
 
         public async Task<bool> UpdatePathAsync(string key, string newValue)
         {
-            bool result;
+            var items = await LoadAsync();
+            if (items is null)
+                return false;
 
-            try
-            {
-                var items = await LoadAsync();
-                if (items is null)
-                    return false;
+            var item = items.FirstOrDefault(x => x.Key == key);
+            if (item is null)
+                return false;
 
-                var item = items.FirstOrDefault(x => x.Key == key);
-                if (item != null)
-                    return false;
+            item.Key = newValue;
+            item.Value.LocalProperties.FullPath = newValue;
 
-                item.Key = newValue;
-                item.Value.LocalProperties.FullPath = newValue;
-
-                result = await SaveAsync(items);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
+            return await SaveAsync(items);
         }
 
         public async Task<bool> SetLastAccessedAsync(string path, DateTime date)
         {
-            bool result;
+            var items = await LoadAsync();
+            if (items is null)
+                return false;
 
-            try
-            {
-                var items = await LoadAsync();
-                if (items is null)
-                    return false;
+            var item = items.FirstOrDefault(x => x.Key == path);
+            if (item is null)
+                return false;
 
-                var item = items.FirstOrDefault(x => x.Key == path);
-                if (item is null)
-                    return false;
+            item.Value.LastAccessed = date;
 
-                item.Value.LastAccessed = date;
-
-                result = await SaveAsync(items);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
+            return await SaveAsync(items);
         }
 
         //---
 
         private async Task<bool> SetPinnedAsync(string key, bool value)
         {
-            bool result;
+            var items = await LoadAsync();
+            if (items is null)
+                return false;
 
-            try
-            {
-                var items = await LoadAsync();
-                if (items is null)
-                    return false;
+            var item = items.FirstOrDefault(x => x.Key == key);
+            if (item is null)
+                return false;
 
-                var item = items?.FirstOrDefault(x => x.Key == key);
-                if (item is null)
-                    return false;
+            item.Value.IsFavorite = value;
 
-                item.Value.IsFavorite = value;
-
-                result = await SaveAsync(items);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
+            return await SaveAsync(items);
         }
 
         private async Task<List<RecentItem>> LoadAsync()
@@ -195,28 +113,24 @@
 
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            try
+            // a new shell profile has no settings file until the shell first writes it
+            if (!File.Exists(_settingsPath))
+                return items; // empty list
+
+            var xmlDocument = new XmlDocument();
+
+            xmlDocument.Load(_settingsPath);
+
+            using (var offline = xmlDocument.DocumentElement.SelectNodes(_offlinePath))
             {
-                var xmlDocument = new XmlDocument();
+                var codeContainers = offline?.Item(0)?.FirstChild;
 
-                xmlDocument.Load(_settingsPath);
+                if (codeContainers is null)
+                    return items; // empty list
 
-                using (var offline = xmlDocument.DocumentElement.SelectNodes(_offlinePath))
-                {
-                    var codeContainers = offline?.Item(0)?.FirstChild;
+                var text = codeContainers.InnerText;
 
-                    if (codeContainers is null)
-                        return items; // empty list
-
-                    var text = codeContainers.InnerText;
-
-                    items = JArray.Parse(text).ToObject<List<RecentItem>>();
-                }
-            }
-
-            catch (Exception)
-            {
-                throw;
+                items = JArray.Parse(text).ToObject<List<RecentItem>>();
             }
 
             return items;
@@ -224,34 +138,29 @@
 
         private async Task<bool> SaveAsync(List<RecentItem> items)
         {
-            bool result;
-
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            try
+            if (!File.Exists(_settingsPath))
+                return false;
+
+            var xmlDocument = new XmlDocument();
+
+            xmlDocument.Load(_settingsPath);
+
+            using (var offline = xmlDocument.DocumentElement.SelectNodes(_offlinePath))
             {
-                var xmlDocument = new XmlDocument();
+                var codeContainers = offline?.Item(0)?.FirstChild;
 
-                xmlDocument.Load(_settingsPath);
+                if (codeContainers is null)
+                    return false;
+                var recentItems = JsonConvert.SerializeObject(items);
 
-                using (var offline = xmlDocument.DocumentElement.SelectNodes(_offlinePath))
-                {
-                    var codeContainers = offline.Item(0).FirstChild;
-                    var recentItems = JsonConvert.SerializeObject(items);
-
-                    codeContainers.InnerText = recentItems;
-                }
-
-                xmlDocument.Save(_settingsPath);
-
-                result = true;
-            }
-            catch (Exception)
-            {
-                throw;
+                codeContainers.InnerText = recentItems;
             }
 
-            return result;
+            xmlDocument.Save(_settingsPath);
+
+            return true;
         }
     }
 }

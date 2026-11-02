@@ -1,12 +1,12 @@
-﻿<UserControl 
-    x:Class="StartPageTcXaeShell64.UI.Views.StartItems.StartItemsView"
+<UserControl 
+    x:Class="TwinCAT.XAE.StartPage.UI.Views.StartItems.StartItemsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:StartPageTcXaeShell64.UI.Views.StartItems"
-    xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
-    xmlns:grid="clr-namespace:StartPageTcXaeShell64.UI.AttachedProperties.Grids"
+    xmlns:local="clr-namespace:TwinCAT.XAE.StartPage.UI.Views.StartItems"
+    xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
+    xmlns:grid="clr-namespace:TwinCAT.XAE.StartPage.UI.AttachedProperties.Grids"
     xmlns:imaging="clr-namespace:Microsoft.VisualStudio.Imaging;assembly=Microsoft.VisualStudio.Imaging"
     xmlns:pui="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
     mc:Ignorable="d" 
@@ -15,8 +15,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Brushes.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TwinCAT.XAE.StartPage;component/Resources/Brushes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TwinCAT.XAE.StartPage;component/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -48,10 +48,26 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Setter Property="MinHeight" Value="70"/>
-                        <Setter Property="Margin" Value="0,0,0,15"/>
-                        <Setter Property="Padding" Value="5"/>
+                        <!-- name + one-line description: every item has the same height, so they're evenly spaced -->
+                        <Setter Property="MinHeight" Value="0"/>
+                        <Setter Property="Margin" Value="0,0,0,8"/>
+                        <Setter Property="Padding" Value="5,3"/>
                         <Setter Property="IsTabStop" Value="False"/>
+                        <Style.Triggers>
+                            <!-- 'Create a new project' directly followed by its children -->
+                            <DataTrigger Binding="{Binding HasChildren}" Value="True">
+                                <Setter Property="Margin" Value="0,0,0,2"/>
+                            </DataTrigger>
+                            <!-- 'New ... Project...' links: one line each, close together, indented so their
+                                 icons line up with the name of 'Create a new project' -->
+                            <DataTrigger Binding="{Binding IsCompact}" Value="True">
+                                <Setter Property="Margin" Value="35,0,0,2"/>
+                                <Setter Property="Padding" Value="5,1"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsGroupEnd}" Value="True">
+                                <Setter Property="Margin" Value="35,0,0,8"/>
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </ListView.ItemContainerStyle>
 
@@ -72,6 +88,19 @@
                                     HorizontalAlignment="Right"
                                     VerticalAlignment="Top"
                                     Moniker="{Binding Moniker}"
+                                    Visibility="{Binding HasImage, Converter={c:BoolToVisibilityConverter Reverse=True}}"
+                                    />
+
+                                <Image
+                                    Grid.Column="0"
+                                    Width="{Binding ImageSize}"
+                                    Height="{Binding ImageSize}"
+                                    Margin="{Binding Margin}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Source="{Binding Image}"
+                                    Visibility="{Binding HasImage, Converter={c:BoolToVisibilityConverter}}"
                                     />
 
                                 <StackPanel x:Name="TextBlocks"
@@ -80,27 +109,52 @@
                                     HorizontalAlignment="Left"
                                     Orientation="Vertical"
                                     >
+                                    <StackPanel.Style>
+                                        <Style TargetType="StackPanel">
+                                            <Setter Property="VerticalAlignment" Value="Top"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsCompact}" Value="True">
+                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </StackPanel.Style>
+
                                     <TextBlock x:Name="StartItemName"
                                         Margin="0"
                                         Padding="5,0,5,0"
                                         HorizontalAlignment="Left"
                                         FontFamily="{StaticResource DefaultFont}"
-                                        FontSize="19"
                                         FontWeight="Normal"
                                         Foreground="{DynamicResource ItemNameBrush}"
                                         Text="{Binding Name}"
                                         TextWrapping="Wrap"
-                                        />
+                                        >
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="FontSize" Value="16"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsCompact}" Value="True">
+                                                        <Setter Property="FontSize" Value="13"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
 
+                                    <!-- one line keeps all items the same height; the tooltip shows what's cut off -->
                                     <TextBlock x:Name="StartItemDescription"
                                         Margin="0"
-                                        Padding="7,0,5,5"
+                                        Padding="7,0,5,2"
                                         FontFamily="{StaticResource DefaultFont}"
-                                        FontSize="13"
+                                        FontSize="12"
                                         FontWeight="Normal"
                                         Foreground="{DynamicResource ItemDescriptionBrush}"
                                         Text="{Binding Description}"
-                                        TextWrapping="Wrap"
+                                        TextTrimming="CharacterEllipsis"
+                                        TextWrapping="NoWrap"
+                                        ToolTip="{Binding Description}"
+                                        Visibility="{Binding IsCompact, Converter={c:BoolToVisibilityConverter Reverse=True}}"
                                         />
                                 </StackPanel>
                             </Grid>

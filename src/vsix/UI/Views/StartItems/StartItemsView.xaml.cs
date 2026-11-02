@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
 using Luminous.Code.Extensions.Exceptions;
 
-namespace StartPageTcXaeShell64.UI.Views.StartItems
+namespace TwinCAT.XAE.StartPage.UI.Views.StartItems
 {
     public partial class StartItemsView : UserControl
     {

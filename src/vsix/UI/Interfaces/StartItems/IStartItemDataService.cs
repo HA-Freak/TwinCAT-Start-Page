@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
-namespace StartPageTcXaeShell64.UI.Interfaces.StartItems
+namespace TwinCAT.XAE.StartPage.UI.Interfaces.StartItems
 {
     using ViewModels.StartItems;
 

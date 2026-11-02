@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 
 using Microsoft.VisualStudio.Imaging.Interop;
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems
 {
     using Enums;
 

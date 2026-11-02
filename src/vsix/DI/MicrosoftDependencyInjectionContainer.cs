@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace StartPageTcXaeShell64.DI
+namespace TwinCAT.XAE.StartPage.DI
 {
     using Core.Interfaces;
 
@@ -13,43 +13,13 @@ namespace StartPageTcXaeShell64.DI
         private static ServiceProvider _serviceProvider = null;
 
         public void AddSingleton<TService>()
-        {
-            try
-            {
-                _serviceCollection.AddSingleton(typeof(TService));
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+            => _serviceCollection.AddSingleton(typeof(TService));
 
         public void AddSingleton<TService>(TService implementation)
-        {
-            try
-            {
-                _serviceCollection.AddSingleton(typeof(TService), implementation);
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+            => _serviceCollection.AddSingleton(typeof(TService), implementation);
 
         public void AddSingleton<TService, TImplementation>()
-        {
-            try
-            {
-                _serviceCollection.AddSingleton(typeof(TService), typeof(TImplementation));
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+            => _serviceCollection.AddSingleton(typeof(TService), typeof(TImplementation));
 
         internal bool IsRegistered(Type serviceType)
             => _serviceCollection.Any(x => x.ServiceType == serviceType);
@@ -59,34 +29,9 @@ namespace StartPageTcXaeShell64.DI
 
         public object GetInstance(Type serviceType)
         {
-            try
-            {
-                if (_serviceProvider == null)
-                {
-                    BuildServiceProvider();
-                }
+            _serviceProvider ??= _serviceCollection.BuildServiceProvider();
 
-                return _serviceProvider.GetService(serviceType);
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-
-        private void BuildServiceProvider()
-        {
-            try
-            {
-                _serviceProvider = _serviceCollection.BuildServiceProvider();
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return _serviceProvider.GetService(serviceType);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.Core.Strings
+namespace TwinCAT.XAE.StartPage.Core.Strings
 {
     public static class Constants
 

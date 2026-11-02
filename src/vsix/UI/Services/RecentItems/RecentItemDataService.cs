@@ -1,9 +1,8 @@
-﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StartPageTcXaeShell64.UI.Services.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.Services.RecentItems
 {
     using System.Collections.Generic;
     using System.IO;
@@ -12,9 +11,9 @@ namespace StartPageTcXaeShell64.UI.Services.RecentItems
 
     using Core.Interfaces;
 
-    using StartPageTcXaeShell64.Core;
-    using StartPageTcXaeShell64.UI.Interfaces.RecentItems;
-    using StartPageTcXaeShell64.UI.ViewModels.RecentItems;
+    using TwinCAT.XAE.StartPage.Core;
+    using TwinCAT.XAE.StartPage.UI.Interfaces.RecentItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems;
 
     internal class RecentItemDataService : ServiceBase, IRecentItemDataService
     {
@@ -52,9 +51,6 @@ namespace StartPageTcXaeShell64.UI.Services.RecentItems
             bool includeCsProjFiles
             )
         {
-            try //SRS
-            {
-
             var viewModels = new List<RecentItemViewModel>();
             var today = DateTimeService.Today.Date;
             var recentItems = await MruService.GetItemsAsync();
@@ -64,23 +60,16 @@ namespace StartPageTcXaeShell64.UI.Services.RecentItems
             // convert List<RecentItems> to List<RecentItemViewModel>
             recentItems
                 // Note: .OrderByDescending(x => x.Value.LastAccessed) not needed because of grouping/sorting
-                //.ToList()
                 .ForEach((recentItem)
                     => viewModels.Add(recentItem.CreateViewModel(today, showExtensions, showPaths)));
 
             var recentItemViewModels = (
                 from vm in viewModels
-                where (includeCsProjFiles == true) || (Path.GetExtension(vm.Path) != ".csproj") //YD: move to a testable Include(path, includeCsProjFiles) property?
+                where includeCsProjFiles || (Path.GetExtension(vm.Path) != ".csproj") //YD: move to a testable Include(path, includeCsProjFiles) property?
                 select vm
             ).Take(itemsToDisplay).ToList();
 
             return new ObservableCollection<RecentItemViewModel>(recentItemViewModels);
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
 
         public async Task<bool> RemoveItemAsync(RecentItemViewModel viewModel)
@@ -98,65 +87,31 @@ namespace StartPageTcXaeShell64.UI.Services.RecentItems
         public async Task<bool> UpdateItemPathAsync(string key, string newValue)
             => await MruService.UpdatePathAsync(key, newValue);
 
-        public async Task<bool> CopyItemPathAsync(RecentItemViewModel item)
+        public Task<bool> CopyItemPathAsync(RecentItemViewModel item)
+            => Task.FromResult(true); // await ClipboardService.CopyToClipboardAsync(item.Path);
+
+        public Task<bool?> EditItemPathAsync(RecentItemViewModel viewModel)
         {
-            try
-            {
-                return true; // await ClipboardService.CopyToClipboardAsync(item.Path);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+            //var newValue = RecentItemDialogService.GetNewValue(viewModel);
 
-        public async Task<bool?> EditItemPathAsync(RecentItemViewModel viewModel)
-        {
-            bool? result = null;
+            //result = newValue.IsNullOrEmpty()
+            //    ? null
+            //    : (bool?)await UpdateItemPathAsync(viewModel, newValue);
 
-            try
-            {
-                //var newValue = RecentItemDialogService.GetNewValue(viewModel);
-
-                //result = newValue.IsNullOrEmpty()
-                //    ? null
-                //    : (bool?)await UpdateItemPathAsync(viewModel, newValue);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            return result;
+            return Task.FromResult<bool?>(null);
         }
 
         public async Task<bool> OpenInVsAsync(RecentItemViewModel viewModel)
         {
-            try
-            {
-                var path = viewModel.Path;
-                var result = true; //YD: await VisualStudioService.OpenInNewInstanceAsync(path);
+            var path = viewModel.Path;
+            var result = true; //YD: await VisualStudioService.OpenInNewInstanceAsync(path);
 
-                return result
-                    ? await UpdateLastAccessedAsync(path)
-                    : result;
-            }
-            catch (Exception)
-            {
-                throw; //YD: what happens if the async method throws an exception? //YD: DIalogService.ShowException
-            }
+            return result
+                ? await UpdateLastAccessedAsync(path)
+                : result;
         }
 
         public async Task<bool> UpdateLastAccessedAsync(string path)
-        {
-            try
-            {
-                return await MruService.SetLastAccessedAsync(path, DateTimeService.Now);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+            => await MruService.SetLastAccessedAsync(path, DateTimeService.Now);
     }
 }

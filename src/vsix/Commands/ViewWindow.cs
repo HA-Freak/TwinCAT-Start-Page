@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.Commands
+namespace TwinCAT.XAE.StartPage.Commands
 {
     using System;
 
@@ -6,10 +6,10 @@
 
     using Microsoft.VisualStudio.Shell;
 
-    using StartPageTcXaeShell64.UI.ToolWindows;
+    using TwinCAT.XAE.StartPage.UI.ToolWindows;
 
-    //using StartPageTcXaeShell64.Options.Models;
-    //using StartPageTcXaeShell64.UI.ToolWindows;
+    //using TwinCAT.XAE.StartPage.Options.Models;
+    //using TwinCAT.XAE.StartPage.UI.ToolWindows;
 
     using Task = System.Threading.Tasks.Task;
 
@@ -17,7 +17,7 @@
     internal sealed class ViewWindow : BaseCommand<ViewWindow>
     {
         //protected override void BeforeQueryStatus(EventArgs e)
-        //    => Command.Enabled = GeneralOptions.Instance.EnableStartPageTcXaeShell64Options;
+        //    => Command.Enabled = GeneralOptions.Instance.EnableStartPageOptions;
 
         protected async override Task ExecuteAsync(OleMenuCmdEventArgs e)
         {

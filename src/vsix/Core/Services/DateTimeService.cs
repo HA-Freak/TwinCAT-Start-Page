@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace StartPageTcXaeShell64.Core.Services
+namespace TwinCAT.XAE.StartPage.Core.Services
 {
     using Interfaces;
 

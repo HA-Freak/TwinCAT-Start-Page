@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Services.NewsItems
+namespace TwinCAT.XAE.StartPage.UI.Services.NewsItems
 {
     using System;
     using System.Collections.Generic;
@@ -10,9 +10,9 @@
 
     using CommunityToolkit.Mvvm.Messaging;
 
-    using StartPageTcXaeShell64.Core;
-    using StartPageTcXaeShell64.UI.Interfaces.NewsItems;
-    using StartPageTcXaeShell64.UI.ViewModels.NewsItems;
+    using TwinCAT.XAE.StartPage.Core;
+    using TwinCAT.XAE.StartPage.UI.Interfaces.NewsItems;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.NewsItems;
 
     internal class NewsItemDataService : ServiceBase, INewsItemDataService
     {

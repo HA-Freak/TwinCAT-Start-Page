@@ -1,9 +1,9 @@
-﻿namespace StartPageTcXaeShell64.UI.Interfaces.NewsItems
+namespace TwinCAT.XAE.StartPage.UI.Interfaces.NewsItems
 {
     using System;
     using System.Collections.Generic;
 
-    using StartPageTcXaeShell64.UI.ViewModels;
+    using TwinCAT.XAE.StartPage.UI.ViewModels;
 
     public interface INewsItemCommandService
     {

@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Interfaces
+namespace TwinCAT.XAE.StartPage.UI.Interfaces
 {
     public interface IStartItemActionService
     {
@@ -6,12 +6,14 @@
 
         bool CreateNewProject();
 
+        bool CreateTwinCatProject(string category = null);
+
         bool OpenFolder();
 
         bool OpenProject();
 
         bool RestartVisualStudio(bool confirm, bool elevated);
 
-        bool OpenWebPage(string url, bool openInVS);
+        bool OpenWebPage(string url, bool openInVS, string title = null);
     }
 }

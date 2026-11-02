@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 
 using Community.VisualStudio.Toolkit;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.Events
+namespace TwinCAT.XAE.StartPage.UI.Events
 {
     using Core;
     using Core.Interfaces;
@@ -16,6 +16,8 @@ namespace StartPageTcXaeShell64.UI.Events
     using Options.Pages;
 
     using Services;
+
+    using ToolWindows;
 
     internal class EventManager
     {
@@ -34,54 +36,80 @@ namespace StartPageTcXaeShell64.UI.Events
 
         //---
 
-        internal static void RegisterEvents(StartPageTcXaeShell64Container container)
+        internal static void RegisterEvents(StartPageContainer container)
         {
             VS.Events.SolutionEvents.OnBeforeOpenSolution += OnBeforeOpenSolution;
+            VS.Events.SolutionEvents.OnAfterOpenSolution += OnAfterOpenSolution;
+            VS.Events.SolutionEvents.OnAfterOpenFolder += OnAfterOpenFolder;
             VS.Events.SolutionEvents.OnAfterCloseSolution += OnAfterCloseSolution;
         }
 
-        internal static void DeregisterEvents(StartPageTcXaeShell64Container container)
+        internal static void DeregisterEvents(StartPageContainer container)
         {
             VS.Events.SolutionEvents.OnAfterCloseSolution -= OnAfterCloseSolution;
+            VS.Events.SolutionEvents.OnAfterOpenFolder -= OnAfterOpenFolder;
+            VS.Events.SolutionEvents.OnAfterOpenSolution -= OnAfterOpenSolution;
             VS.Events.SolutionEvents.OnBeforeOpenSolution -= OnBeforeOpenSolution;
         }
 
         //---
 
+        // fires when an existing .sln is loaded from disk
         private static void OnBeforeOpenSolution(string obj)
         {
             if (GeneralOptions.Instance.HideOnSolutionOpen == true)
             {
                 HideWindow();
             }
+        }
 
-            //---
-
-            static void HideWindow()
+        // fires for newly created solutions too (e.g. 'Create a new project'),
+        // which OnBeforeOpenSolution does not
+        private static void OnAfterOpenSolution(Solution solution)
+        {
+            if (GeneralOptions.Instance.HideOnSolutionOpen == true)
             {
-                _methodService.Run(
-                    async () =>
-                    {
-                        var result = false;
-
-                        try
-                        {
-                            var mainWindow = await VS.Windows.FindWindowAsync(PackageGuids.StartPageTcXaeShell64Window);
-
-                            await mainWindow.CloseFrameAsync(FrameCloseOption.NoSave);
-
-                            result = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            result = false;
-                            _dialogService.ShowException(ex);
-                        }
-
-                        return result;
-                    }
-                );
+                HideWindow();
             }
+        }
+
+        private static void OnAfterOpenFolder(string obj)
+        {
+            if (GeneralOptions.Instance.HideOnSolutionOpen == true)
+            {
+                HideWindow();
+            }
+        }
+
+        private static void HideWindow()
+        {
+            _methodService.Run(
+                async () =>
+                {
+                    var result = false;
+
+                    try
+                    {
+                        var mainWindow = await VS.Windows.FindWindowAsync(PackageGuids.StartPageWindow);
+
+                        if (mainWindow is null)
+                        {
+                            return true; // nothing to hide
+                        }
+
+                        await mainWindow.CloseFrameAsync(FrameCloseOption.NoSave);
+
+                        result = true;
+                    }
+                    catch (Exception ex)
+                    {
+                        result = false;
+                        _dialogService.ShowException(ex);
+                    }
+
+                    return result;
+                }
+            );
         }
 
         private static void OnAfterCloseSolution()
@@ -100,23 +128,19 @@ namespace StartPageTcXaeShell64.UI.Events
                 _methodService.Run(
                     async () =>
                     {
-                        var result = false;
-
                         try
                         {
-                            var mainWindow = await VS.Windows.FindWindowAsync(PackageGuids.StartPageTcXaeShell64Window);
+                            // creates the tool window if it doesn't exist yet (e.g. the tab was closed)
+                            await MainWindow.ShowAsync();
 
-                            await mainWindow.ShowAsync();
-
-                            result = true;
+                            return true;
                         }
                         catch (Exception ex)
                         {
-                            result = false;
                             _dialogService.ShowException(ex);
-                        }
 
-                        return result;
+                            return false;
+                        }
                     }
                 );
             }

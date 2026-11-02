@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Messaging.Messages;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace StartPageTcXaeShell64.UI.Messages
+namespace TwinCAT.XAE.StartPage.UI.Messages
 {
     using ViewModels.NewsItems;
 

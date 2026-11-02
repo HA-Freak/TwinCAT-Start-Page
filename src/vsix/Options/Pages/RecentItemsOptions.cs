@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 
 using Community.VisualStudio.Toolkit;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.Options.Pages
+namespace TwinCAT.XAE.StartPage.Options.Pages
 {
     using DI;
 
@@ -67,7 +67,7 @@ namespace StartPageTcXaeShell64.Options.Pages
 
         private void OnSaved(RecentItemsOptions options)
         {
-            var container = StartPageTcXaeShell64Container.Instance;
+            var container = StartPageContainer.Instance;
             var messenger = container.GetInstance<IMessenger>();
 
             messenger.Send<RefreshRecentItems>();

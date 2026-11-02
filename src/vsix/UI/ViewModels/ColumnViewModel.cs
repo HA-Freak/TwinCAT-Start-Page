@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.ViewModels
+namespace TwinCAT.XAE.StartPage.UI.ViewModels
 {
     using System.Collections.Generic;
 

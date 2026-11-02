@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.Core.Interfaces
+namespace TwinCAT.XAE.StartPage.Core.Interfaces
 {
     public interface IDependencyInjectionContainer
     {

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
 	<Extern href="stdidcmd.h"/>
@@ -6,11 +6,11 @@
 	<Include href="KnownImageIds.vsct"/>
 	<Include href="VSGlobals.vsct"/>
 
-	<Commands package="StartPageTcXaeShell64">
+	<Commands package="StartPage">
 		<Buttons>
 			<!-- DN = 10, EL = 20, SP+ = 30 -->
 
-			<Button guid="StartPageTcXaeShell64" id="FileWindow" priority="0x030" type="Button">
+			<Button guid="StartPage" id="FileWindow" priority="0x030" type="Button">
         <Parent guid="VSMainMenu" id="View.CodeGroup"/>
         <Icon guid="ImageCatalogGuid" id="ShowStartPage" />
 				<CommandFlag>IconIsMoniker</CommandFlag>
@@ -18,16 +18,16 @@
 				<Strings>
 					<ButtonText>Start Page TcXaeShell64</ButtonText>
 					<CommandName>Start Page TcXaeShell64</CommandName>
-					<CanonicalName>.File.StartPageTcXaeShell64</CanonicalName>
+					<CanonicalName>.File.StartPage</CanonicalName>
 				</Strings>
 			</Button>
 		</Buttons>
 	</Commands>
 
 	<Symbols>
-		<GuidSymbol name="StartPageTcXaeShell64" value="{6b4431b4-7dc5-40c7-bf16-8d7ebe2c4608}">
+		<GuidSymbol name="StartPage" value="{6b4431b4-7dc5-40c7-bf16-8d7ebe2c4608}">
 			<IDSymbol name="FileWindow" value="0x0210" />
 		</GuidSymbol>
-		<GuidSymbol name="StartPageTcXaeShell64Window" value="{e3be6dd3-f017-4d6e-ae88-2b29319a77a2}" />
+		<GuidSymbol name="StartPageWindow" value="{e3be6dd3-f017-4d6e-ae88-2b29319a77a2}" />
 	</Symbols>
 </CommandTable>

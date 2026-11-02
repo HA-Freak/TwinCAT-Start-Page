@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace StartPageTcXaeShell64.UI.ViewModels
+namespace TwinCAT.XAE.StartPage.UI.ViewModels
 {
     using DI;
 
@@ -14,7 +14,7 @@ namespace StartPageTcXaeShell64.UI.ViewModels
 
     internal class ViewModelManager
     {
-        private static StartPageTcXaeShell64Container _container;
+        private static StartPageContainer _container;
 
         //---
 
@@ -39,7 +39,7 @@ namespace StartPageTcXaeShell64.UI.ViewModels
 
         //---
 
-        public static void RegisterViewModels(StartPageTcXaeShell64Container container)
+        public static void RegisterViewModels(StartPageContainer container)
         {
             _container = container ?? throw new ArgumentNullException(nameof(container));
 

@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.UI.Converters
+namespace TwinCAT.XAE.StartPage.UI.Converters
 {
     using System;
     using System.Globalization;
@@ -7,10 +7,10 @@
     using Microsoft.VisualStudio.Imaging;
     using Microsoft.VisualStudio.Imaging.Interop;
 
-    using StartPageTcXaeShell64.UI.MarkupExtensions;
+    using TwinCAT.XAE.StartPage.UI.MarkupExtensions;
 
     // usage:
-    // xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
+    // xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
 
     //<Image Moniker="{Binding Pinned, Converter={c:BoolToPinConverter Reverse=false}">
 

@@ -1,13 +1,13 @@
-﻿namespace StartPageTcXaeShell64.UI.Models
+namespace TwinCAT.XAE.StartPage.UI.Models
 {
     using System;
     using System.IO;
 
-    using StartPageTcXaeShell64.UI.Enums;
-    using StartPageTcXaeShell64.UI.ViewModels.RecentItems;
+    using TwinCAT.XAE.StartPage.UI.Enums;
+    using TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems;
 
-    using static StartPageTcXaeShell64.UI.Enums.PeriodTypes;
-    using static StartPageTcXaeShell64.UI.Enums.RecentItemTypes;
+    using static TwinCAT.XAE.StartPage.UI.Enums.PeriodTypes;
+    using static TwinCAT.XAE.StartPage.UI.Enums.RecentItemTypes;
 
     internal class RecentItem
     {
@@ -21,7 +21,8 @@
         public RecentItemViewModel CreateViewModel(DateTime today, bool showExtension, bool showPath)
         {
             var path = Value.LocalProperties.FullPath;
-            var date = Value.LastAccessed.Date;
+            // LastAccessed is stored in UTC; group by the local calendar day
+            var date = Value.LastAccessed.ToLocalTime().Date;
             var name = showExtension
                 ? Path.GetFileName(path)
                 : Path.GetFileNameWithoutExtension(path);

@@ -1,4 +1,4 @@
-﻿namespace StartPageTcXaeShell64.Core.Dates
+namespace TwinCAT.XAE.StartPage.Core.Dates
 {
     using System;
     using System.Globalization;

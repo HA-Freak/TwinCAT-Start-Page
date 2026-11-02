@@ -1,16 +1,16 @@
-﻿<UserControl
-    x:Class="StartPageTcXaeShell64.UI.Views.StartView"
+<UserControl
+    x:Class="TwinCAT.XAE.StartPage.UI.Views.StartView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:c="clr-namespace:StartPageTcXaeShell64.UI.Converters"
+    xmlns:c="clr-namespace:TwinCAT.XAE.StartPage.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vri="clr-namespace:StartPageTcXaeShell64.UI.Views.RecentItems"
-    xmlns:vmri="clr-namespace:StartPageTcXaeShell64.UI.ViewModels.RecentItems"
-    xmlns:vsi="clr-namespace:StartPageTcXaeShell64.UI.Views.StartItems"
-    xmlns:vmsi="clr-namespace:StartPageTcXaeShell64.UI.ViewModels.StartItems"
-    xmlns:vni="clr-namespace:StartPageTcXaeShell64.UI.Views.NewsItems"
-    xmlns:vmni="clr-namespace:StartPageTcXaeShell64.UI.ViewModels.NewsItems"
+    xmlns:vri="clr-namespace:TwinCAT.XAE.StartPage.UI.Views.RecentItems"
+    xmlns:vmri="clr-namespace:TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems"
+    xmlns:vsi="clr-namespace:TwinCAT.XAE.StartPage.UI.Views.StartItems"
+    xmlns:vmsi="clr-namespace:TwinCAT.XAE.StartPage.UI.ViewModels.StartItems"
+    xmlns:vni="clr-namespace:TwinCAT.XAE.StartPage.UI.Views.NewsItems"
+    xmlns:vmni="clr-namespace:TwinCAT.XAE.StartPage.UI.ViewModels.NewsItems"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Background="{DynamicResource ContentBackgroundBrush}"
@@ -20,8 +20,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Brushes.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/start-page-tcxaeshell64;component/Resources/Styles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TwinCAT.XAE.StartPage;component/Resources/Brushes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TwinCAT.XAE.StartPage;component/Resources/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -45,25 +45,26 @@
             Visibility="{Binding ShowStartTabTitle, Converter={c:BoolToVisibilityConverter}}"
             />
 
-        <ItemsControl
+        <!-- recent and start items share the width; the news column takes a third, or only its 'News' strip when minimized -->
+        <Grid x:Name="Columns"
             Margin="10,0,0,0"
-            Padding="0"
-            Foreground="{DynamicResource TitleBrush}"
-            IsTabStop="False"
-            ItemsSource="{Binding Columns}"
+            SizeChanged="OnColumnsSizeChanged"
+            Background="Transparent"
+            TextElement.Foreground="{DynamicResource TitleBrush}"
             >
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid
-                        Background="Transparent"
-                        Rows="1"
-                        />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="{Binding NewsItems.IsMinimized, Converter={c:BoolToGridLengthConverter Reverse=True}, FallbackValue={x:Static GridLength.Auto}}"/>
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Grid.Column="0" Content="{Binding RecentItems}" IsTabStop="False"/>
+            <ContentControl Grid.Column="1" Content="{Binding StartItems}" IsTabStop="False"/>
+            <ContentControl Grid.Column="2" Content="{Binding NewsItems}" IsTabStop="False"/>
 
             <!-- https://stackoverflow.com/questions/33550518/how-to-use-datatemplate-to-set-datacontext -->
 
-            <ItemsControl.Resources>
+            <Grid.Resources>
                 <!-- in addition to instantiating the view, this is also setting the datacontext -->
                 <DataTemplate DataType="{x:Type vmri:RecentItemsViewModel}">
                     <vri:RecentItemsView IsTabStop="False"/>
@@ -78,7 +79,7 @@
                 <DataTemplate DataType="{x:Type vmni:NewsItemsViewModel}">
                     <vni:NewsItemsView IsTabStop="False"/>
                 </DataTemplate>
-            </ItemsControl.Resources>
-        </ItemsControl>
+            </Grid.Resources>
+        </Grid>
     </DockPanel>
 </UserControl>

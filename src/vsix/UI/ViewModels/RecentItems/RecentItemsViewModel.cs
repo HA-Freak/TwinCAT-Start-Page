@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.RecentItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.RecentItems
 {
     using Core.Interfaces;
 

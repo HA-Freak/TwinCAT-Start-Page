@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.Imaging;
+using Microsoft.VisualStudio.Imaging;
 
-namespace StartPageTcXaeShell64.UI.ViewModels.StartItems
+namespace TwinCAT.XAE.StartPage.UI.ViewModels.StartItems
 {
     using Interfaces;
 
