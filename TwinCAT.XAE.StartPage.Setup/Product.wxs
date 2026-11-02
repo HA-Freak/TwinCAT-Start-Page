@@ -8,7 +8,7 @@ When we release a new version we must
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*"
-           Version="1.1.46"
+           Version="1.1.47"
            Name="TwinCAT.XAE.StartPage"
            Language="1033"
            Manufacturer="HA-Freak"
@@ -60,15 +60,12 @@ When we release a new version we must
                     <Component Id="TwinCATStartPagex64TcXaeShell64Resources" Guid="a2dd8ac2-b951-0933-30c3-912a7e478e6e">
 
                       <File Id="MicrosoftXamlBehaviorsDllId" Name="Microsoft.Xaml.Behaviors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.dll"/>
-                      <File Id="MicrosoftXamlBehaviorsPdbId" Name="Microsoft.Xaml.Behaviors.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Xaml.Behaviors.pdb"/>
                       <File Id="StartPageTcXaeShell6464bitdllId" Name="TwinCAT.XAE.StartPage.dll" Vital="yes" Source="..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.dll"/>
-                      <File Id="StartPageTcXaeShell6464bitpdbId" Name="TwinCAT.XAE.StartPage.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.pdb"/>
                       <File Id="StartPageTcXaeShell6464bitpkgdefId" Name="TwinCAT.XAE.StartPage.pkgdef" Vital="yes" Source="..\src\vsix\bin\Debug\TwinCAT.XAE.StartPage.pkgdef"/>
                       <File Id="SystemComponentModelAnnotationsDllId" Name="System.ComponentModel.Annotations.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.ComponentModel.Annotations.dll"/>
                       <File Id="SystemNumericsVectorsDllId" Name="System.Numerics.Vectors.dll" Vital="yes" Source="..\src\vsix\bin\Debug\System.Numerics.Vectors.dll"/>
                       <File Id="CommunityVisualStudioToolkitDllId" Name="Community.VisualStudio.Toolkit.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Community.VisualStudio.Toolkit.dll"/>
                       <File Id="CommunityToolkitMvvmDllId" Name="CommunityToolkit.Mvvm.dll" Vital="yes" Source="..\src\vsix\bin\Debug\CommunityToolkit.Mvvm.dll"/>
-                      <File Id="CommunityToolkitMvvmPdbId" Name="CommunityToolkit.Mvvm.pdb" Vital="yes" Source="..\src\vsix\bin\Debug\CommunityToolkit.Mvvm.pdb"/>
                       <File Id="ExtensionVsixmanifestId" Name="extension.vsixmanifest" Vital="yes" Source="..\src\vsix\bin\Debug\extension.vsixmanifest"/>
                       <File Id="MicrosoftExtensionsDependencyInjectionAbstractionsDllId" Name="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
                       <File Id="MicrosoftExtensionsDependencyInjectionDllId" Name="Microsoft.Extensions.DependencyInjection.dll" Vital="yes" Source="..\src\vsix\bin\Debug\Microsoft.Extensions.DependencyInjection.dll"/>

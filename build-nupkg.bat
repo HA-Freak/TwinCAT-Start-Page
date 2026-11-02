@@ -68,7 +68,9 @@ echo Version:       %PKGVERSION%
 
 echo.
 echo --- [1/4] building extension (VSIX) ---
-"%MSBUILD%" "src\vsix\TwinCAT.XAE.StartPage.csproj" /p:Configuration=Debug /restore /v:minimal /nologo
+rem no PDB and neutral source paths, so the packages don't contain local paths
+rem (user name); /t:Rebuild so no PDB from an earlier F5 build ends up in the VSIX
+"%MSBUILD%" "src\vsix\TwinCAT.XAE.StartPage.csproj" /t:Rebuild /p:Configuration=Debug /p:DebugType=none /p:DebugSymbols=false /p:IncludeDebugSymbolsInVSIXContainer=false "/p:PathMap=%CD%=C:\src" /restore /v:minimal /nologo
 if errorlevel 1 goto :fail
 
 echo.

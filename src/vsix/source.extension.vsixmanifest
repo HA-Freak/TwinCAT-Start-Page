@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="96b389fd-48b6-48d9-bbf2-ec6ebd026b14" Version="1.1.46" Language="en-US" Publisher="HA/Freak" />
+        <Identity Id="96b389fd-48b6-48d9-bbf2-ec6ebd026b14" Version="1.1.47" Language="en-US" Publisher="HA/Freak" />
         <DisplayName>TwinCAT.XAE.StartPage</DisplayName>
         <Description xml:space="preserve">Bring back Start Page! (a document tab, NOT a modal window)</Description>
         <MoreInfo>https://github.com/HA-Freak/TwinCAT-Start-Page</MoreInfo>
