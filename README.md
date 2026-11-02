@@ -217,4 +217,7 @@ build-nupkg.bat                   build, pack and sign
 ## License
 
 MIT. See [LICENSE](LICENSE).
-Based on Start Page+ © 2021 Luminous Software Solutions.
+© 2026 HA-Freak; based on Start Page+ © 2021 Luminous Software Solutions.
+
+TwinCAT and Beckhoff are registered trademarks of Beckhoff Automation GmbH.
+This is an independent project and not an official Beckhoff product.
