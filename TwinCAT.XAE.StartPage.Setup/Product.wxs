@@ -8,7 +8,7 @@ When we release a new version we must
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Product Id="*"
-           Version="1.1.45"
+           Version="1.1.46"
            Name="TwinCAT.XAE.StartPage"
            Language="1033"
            Manufacturer="HA-Freak"

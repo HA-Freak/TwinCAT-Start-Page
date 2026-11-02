@@ -11,7 +11,7 @@ namespace TwinCAT.XAE.StartPage
         public const string Name = "TwinCAT.XAE.StartPage";
         public const string Description = @"Bring back Start Page! (a document tab, NOT a modal window)";
         public const string Language = "en-US";
-        public const string Version = "1.1.45";
+        public const string Version = "1.1.46";
         public const string Author = "HA/Freak";
         public const string Tags = "TwinCAT.XAE.StartPage, 64 bit, 64bit, start page, start-page, startpage, luminous, yannduran, yd";
     }

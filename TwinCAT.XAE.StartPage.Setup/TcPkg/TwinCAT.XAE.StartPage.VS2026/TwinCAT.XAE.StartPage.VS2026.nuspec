@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>TwinCAT.XAE.StartPage.VS2026</id>
-    <version>1.1.45</version>
+    <version>1.1.46</version>
     <title>TwinCAT Start Page (Visual Studio 2026 integration)</title>
     <authors>HA-Freak</authors>
     <description>Visual Studio 2026 integration for the TwinCAT Start Page extension. Installed automatically by the TwinCAT.XAE.StartPage package.</description>
