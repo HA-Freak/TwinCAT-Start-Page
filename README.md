@@ -100,12 +100,6 @@ TcPkg uses the shell tags (`TCXAESHELL64`, `VS2022`, `VS2026`) to pick the match
 
 To install packages you built yourself, add their output folder as a feed in the Package Manager.
 
-### Manually
-- **TcXaeShell64:** run `TwinCAT.XAE.StartPage.msi`.
-- **Visual Studio 2022:** double-click `TwinCAT.XAE.StartPage.vsix`.
-
-Restart the shell afterwards.
-
 ---
 
 ## Usage
