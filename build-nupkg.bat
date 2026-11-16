@@ -54,9 +54,9 @@ rem note: must NOT be named OUTDIR - MSBuild treats an OutDir environment
 rem variable as a global property and would redirect the build outputs
 set "PKGOUT=TwinCAT.XAE.StartPage.Setup\bin\Debug"
 
-rem signing certificate in Cert:\CurrentUser\My (one-time setup: see
-rem TwinCAT.XAE.StartPage.Setup\bin\Debug\signing.txt); override via SIGN_THUMBPRINT
-if not defined SIGN_THUMBPRINT set "SIGN_THUMBPRINT=16FD1A0A1F625BFA1879CA7B9814D29AD88B5590"
+rem signing certificate "Start Page Package Signing" in
+rem Cert:\CurrentUser\My (setup: README, "Package signing"); override via SIGN_THUMBPRINT
+if not defined SIGN_THUMBPRINT set "SIGN_THUMBPRINT=E3F0739C4AA46B42491CE02CAA0E7C0CDB55B847"
 
 set "PKGVERSION="
 for /f "usebackq delims=" %%v in (`powershell -NoProfile -Command "([xml](Get-Content 'TwinCAT.XAE.StartPage.Setup\TcPkg\TwinCAT.XAE.StartPage\TwinCAT.XAE.StartPage.nuspec')).package.metadata.version"`) do set "PKGVERSION=%%v"

@@ -21,6 +21,7 @@ It is based on [Start Page+ (64-bit)](https://github.com/yannduran/start-page-pl
 - [Usage](#usage)
 - [Options](#options)
 - [Building from source](#building-from-source)
+- [Package signing](#package-signing)
 - [Repository layout](#repository-layout)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
@@ -90,7 +91,13 @@ The extension is published as TcPkg packages and is listed as a **workload** in 
 | `TwinCAT.XAE.StartPage.VS2022` | VSIX for Visual Studio 2022 instances |
 | `TwinCAT.XAE.StartPage.VS2026` | VSIX for Visual Studio 2026 instances |
 
-Install **TwinCAT Start Page** in the Package Manager, or from the command line:
+The packages are signed with a self-signed certificate, so TcPkg has to trust it first. Download [`StartPage-package-signing.cer`](TwinCAT.XAE.StartPage.Setup/TcPkg/StartPage-package-signing.cer) and add it to the TcPkg trust store once (see [Package signing](#package-signing)):
+
+```bash
+tcpkg certificate add StartPage-package-signing.cer -n "Start Page Package Signing"
+```
+
+Then install **TwinCAT Start Page** in the Package Manager, or from the command line:
 
 ```bash
 tcpkg install TwinCAT.XAE.StartPage
@@ -160,7 +167,7 @@ The script:
 1. builds the VSIX with VS 2022 MSBuild,
 2. builds the MSI,
 3. packs the four `.nupkg` files into `TwinCAT.XAE.StartPage.Setup\bin\Debug`,
-4. signs them with `tcpkg sign`. It uses the certificate from `Cert:\CurrentUser\My`; set the `SIGN_THUMBPRINT` environment variable to use a different one.
+4. signs them with `tcpkg sign`, using the [signing certificate](#package-signing) from `Cert:\CurrentUser\My`. Set the `SIGN_THUMBPRINT` environment variable to use a different one.
 
 ### Versioning
 For every release, set the version to the **same value** in all seven files:
@@ -174,6 +181,44 @@ For every release, set the version to the **same value** in all seven files:
 Press F5 in Visual Studio 2022. A Debug build deploys the extension to the 17.0 experimental instance:
 `%LOCALAPPDATA%\Microsoft\VisualStudio\17.0_<id>Exp\Extensions\HA\Freak\TwinCAT.XAE.StartPage\<version>`.
 After a version bump, delete the old version folder there.
+
+---
+
+## Package signing
+
+All four packages are signed with this certificate:
+
+| | |
+|---|---|
+| Subject | `CN=Start Page Package Signing, O=HA-Freak` |
+| Thumbprint (SHA-1) | `E3F0739C4AA46B42491CE02CAA0E7C0CDB55B847` |
+| Fingerprint (SHA-256) | `BCFB8AC61099F5780367F45ADA0744A7715F449D0629DB4A7DDDFC23B1AE4E39` |
+| Valid | 2026-11-16 to 2031-11-16 |
+| Key | RSA 4096, SHA-256, Code Signing |
+| Public certificate | [`TwinCAT.XAE.StartPage.Setup/TcPkg/StartPage-package-signing.cer`](TwinCAT.XAE.StartPage.Setup/TcPkg/StartPage-package-signing.cer) |
+
+It is self-signed, not issued by a certificate authority. Before you trust it, compare the thumbprint shown by `tcpkg certificate list` with the one above.
+
+Packages from version 1.1.47 and older were signed with a temporary test certificate (`CN=TcPkg Test Signing`). You can remove it from the trust store with `tcpkg certificate remove 16FD1A0A1F625BFA1879CA7B9814D29AD88B5590`.
+
+### For maintainers
+
+The private key stays in the maintainer's `Cert:\CurrentUser\My` store and is never committed. It was created with:
+
+```powershell
+New-SelfSignedCertificate -Type CodeSigningCert `
+  -Subject 'CN=Start Page Package Signing, O=HA-Freak' `
+  -FriendlyName 'Start Page Package Signing' `
+  -KeyAlgorithm RSA -KeyLength 4096 -HashAlgorithm SHA256 -KeyExportPolicy Exportable `
+  -NotAfter (Get-Date).AddYears(5) -CertStoreLocation Cert:\CurrentUser\My
+```
+
+- **Back up the private key** to a `.pfx` with a strong password and keep it outside the repository:
+  ```powershell
+  Export-PfxCertificate -Cert Cert:\CurrentUser\My\E3F0739C4AA46B42491CE02CAA0E7C0CDB55B847 -FilePath <backup>.pfx -Password (Read-Host -AsSecureString 'PFX password')
+  ```
+- **Another build machine:** import the `.pfx` into `Cert:\CurrentUser\My`. `build-nupkg.bat` finds the certificate by its thumbprint.
+- **New certificate** (renewal or a lost key): create it with the command above, export the public part with `Export-Certificate -Type CERT` over `StartPage-package-signing.cer`, and update the thumbprint in `build-nupkg.bat` and in this section. Users have to add the new certificate to their trust store again.
 
 ---
 
@@ -191,6 +236,8 @@ TwinCAT.XAE.StartPage.Setup/
   Product.wxs                     WiX MSI for TcXaeShell64
   TcPkg/<package>/                nuspec and install/uninstall scripts per package
   TcPkg/icon.svg, icon.png        package icon
+  TcPkg/StartPage-package-signing.cer
+                                  public signing certificate
 docs/images/                      README screenshots
 build-nupkg.bat                   build, pack and sign
 ```
